@@ -114,6 +114,10 @@ class manageRestrictionDetails(RestrictionTypeUtilsMixin):
                                self.iface.mainWindow())
         self.actionCreateConstructionLine.setCheckable(True)
 
+        self.actionEditLabels = QAction(QIcon(":/plugins/TOMs/resources/ortho2.png.svg"),
+                               QCoreApplication.translate("MyPlugin", "Edit labels"),
+                               self.iface.mainWindow())
+        self.actionEditLabels.setCheckable(True)
 
         # Add actions to the toolbar
         self.TOMsToolbar.addAction(self.actionSelectRestriction)
@@ -125,6 +129,7 @@ class manageRestrictionDetails(RestrictionTypeUtilsMixin):
         self.TOMsToolbar.addAction(self.actionRemoveRestriction)
         self.TOMsToolbar.addAction(self.actionEditRestriction)
         self.TOMsToolbar.addAction(self.actionCreateConstructionLine)
+        self.TOMsToolbar.addAction(self.actionEditLabels)
 
         # Connect action signals to slots
         self.actionSelectRestriction.triggered.connect(self.doSelectRestriction)
@@ -136,6 +141,7 @@ class manageRestrictionDetails(RestrictionTypeUtilsMixin):
         self.actionRemoveRestriction.triggered.connect(self.doRemoveRestriction)
         self.actionEditRestriction.triggered.connect(self.doEditRestriction)
         self.actionCreateConstructionLine.triggered.connect(self.doCreateConstructionLine)
+        self.actionEditLabels.triggered.connect(self.doEditLabels)
 
         pass
 
@@ -740,6 +746,22 @@ class manageRestrictionDetails(RestrictionTypeUtilsMixin):
         pass
 
         QgsMessageLog.logMessage("In doEditRestriction - leaving", tag="TOMs panel")
+
+        pass
+
+    def doEditLabels(self):
+        """ Select point and then display details
+        """
+        QgsMessageLog.logMessage("In doEditLabels", tag="TOMs panel")
+
+        # Get the current proposal from the session variables
+        currProposalID = self.proposalsManager.currentProposal()
+
+        if currProposalID > 0:
+
+            if self.doEditLabels.isChecked():
+
+                QgsMessageLog.logMessage("In actionEditRestriction - tool being activated", tag="TOMs panel")
 
         pass
 

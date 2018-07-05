@@ -870,9 +870,9 @@ class generateGeometryUtils:
         restrictionCPZ = feature.attribute("CPZ")
         CPZWaitingTimeID = generateGeometryUtils.getCPZWaitingTimeID(restrictionCPZ)
 
-        #QgsMessageLog.logMessage(
-        #    "In getWaitingLoadingRestrictionLabelText (1): " + str(CPZWaitingTimeID),
-        #    tag="TOMs panel")
+        """QgsMessageLog.logMessage(
+            "In getWaitingLoadingRestrictionLabelText (1): " + str(CPZWaitingTimeID),
+            tag="TOMs panel")"""
 
         if CPZWaitingTimeID:
             #QgsMessageLog.logMessage("In getWaitingLoadingRestrictionLabelText: " + str(CPZWaitingTimeID) + " " + str(waitingTimeID),
@@ -973,11 +973,11 @@ class generateGeometryUtils:
     @staticmethod
     def getCurrentCPZDetails(feature):
 
-        QgsMessageLog.logMessage("In getCurrentCPZDetails", tag="TOMs panel")
+        #QgsMessageLog.logMessage("In getCurrentCPZDetails", tag="TOMs panel")
         CPZLayer = QgsMapLayerRegistry.instance().mapLayersByName("edingburghcpzs")[0]
 
         restrictionID = feature.attribute("GeometryID")
-        QgsMessageLog.logMessage("In getCurrentCPZDetails. restriction: " + str(restrictionID), tag="TOMs panel")
+        #QgsMessageLog.logMessage("In getCurrentCPZDetails. restriction: " + str(restrictionID), tag="TOMs panel")
 
         geom = feature.geometry()
 
@@ -987,7 +987,7 @@ class generateGeometryUtils:
 
             currentCPZ = currentCPZFeature.attribute("CPZ")
             cpzWaitingTimeID = currentCPZFeature.attribute("WaitingTimeID")
-            QgsMessageLog.logMessage("In getCurrentCPZDetails. CPZ found: " + str(currentCPZ), tag="TOMs panel")
+            #QgsMessageLog.logMessage("In getCurrentCPZDetails. CPZ found: " + str(currentCPZ), tag="TOMs panel")
 
             return currentCPZ, cpzWaitingTimeID
 
@@ -996,11 +996,11 @@ class generateGeometryUtils:
     @staticmethod
     def getCurrentPTADetails(feature):
 
-        QgsMessageLog.logMessage("In getCurrentPTADetails", tag="TOMs panel")
+        #QgsMessageLog.logMessage("In getCurrentPTADetails", tag="TOMs panel")
         PTALayer = QgsMapLayerRegistry.instance().mapLayersByName("ParkingTariffAreas")[0]
 
         restrictionID = feature.attribute("GeometryID")
-        QgsMessageLog.logMessage("In getCurrentPTADetails. restriction: " + str(restrictionID), tag="TOMs panel")
+        #QgsMessageLog.logMessage("In getCurrentPTADetails. restriction: " + str(restrictionID), tag="TOMs panel")
 
         geom = feature.geometry()
 
@@ -1011,7 +1011,7 @@ class generateGeometryUtils:
             currentPTA = currentPTAFeature.attribute("Name")
             ptaMaxStayID = currentPTAFeature.attribute("MaxStayID")
             ptaNoReturnTimeID = currentPTAFeature.attribute("NoReturnTimeID")
-            QgsMessageLog.logMessage("In getCurrentPTADetails. PTA found: " + str(currentPTA), tag="TOMs panel")
+            #QgsMessageLog.logMessage("In getCurrentPTADetails. PTA found: " + str(currentPTA), tag="TOMs panel")
 
             return currentPTA, ptaMaxStayID, ptaNoReturnTimeID
 

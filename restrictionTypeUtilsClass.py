@@ -345,7 +345,48 @@ class setupTableNames():
         else:
             QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table RestrictionPolygons is not present"))
             found = False
+
+        if QgsMapLayerRegistry.instance().mapLayersByName("CPZs"):
+            self.CPZs = QgsMapLayerRegistry.instance().mapLayersByName("CPZs")[0]
+        else:
+            QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table CPZs is not present"))
+            found = False
+
+        if QgsMapLayerRegistry.instance().mapLayersByName("ParkingTariffAreas"):
+            self.PTAs = QgsMapLayerRegistry.instance().mapLayersByName("ParkingTariffAreas")[0]
+        else:
+            QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table ParkingTariffAreas is not present"))
+            found = False
+
+        # TODO: include the required lookup tables
+
         # TODO: need to deal with any errors arising ...
+
+class TOMsLabels():
+    def __init__(self, iface, proposalsManager):
+
+        self.iface = iface
+        self.proposalsManager = proposalsManager
+
+    def afterUnPin(self, currRestriction, currRestrictionLayer):
+
+        # The unpin action will populate the x,y values of the layer
+
+        currProposalID = self.proposalsManager.currentProposal()
+
+        currRestrictionLayerID = self.getRestrictionLayerTableID(currRestrictionLayer)
+
+        idxRestrictionID = currRestriction.fieldNameIndex("RestrictionID")
+
+        if self.restrictionInProposal(currRestriction[idxRestrictionID], currRestrictionLayerID, currProposalID):
+            pass
+
+    def afterMove(self):
+        pass
+
+    def afterRotate(self):
+        pass
+
 
 class RestrictionTypeUtilsMixin():
 
