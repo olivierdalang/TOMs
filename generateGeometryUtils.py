@@ -545,6 +545,9 @@ class generateGeometryUtils:
 
         if nrBays > 1:
             # divide parallelLine by the number of bays
+
+            # Need to work along both lines and generate points and lines between points
+
             pass
 
         return outputGeometry

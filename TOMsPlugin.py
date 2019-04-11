@@ -93,14 +93,14 @@ class TOMs:
             QgsMessageLog.logMessage("Sorting out log file" + self.filename, tag="TOMs panel")
             QgsMessageLog.instance().messageReceived.connect(self.write_log_message)
 
-
         QgsMessageLog.logMessage("Finished init", tag="TOMs panel")
         #self.toolbar = self.iface.addToolBar(u'Test5Class')
         #self.toolbar.setObjectName(u'Test5Class')
 
 
     def write_log_message(self, message, tag, level):
-        filename = os.path.join('C:\Users\Tim\Documents\MHTC', 'qgis.log')
+        # Get the path for the log file
+        #filename = os.path.join('C:\Users\Tim\Documents\MHTC', 'qgis.log')
         with open(self.filename, 'a') as logfile:
             logfile.write('{dateDetails}:: {message}\n'.format(dateDetails= time.strftime("%Y%m%d:%H%M%S"), message=message))
 

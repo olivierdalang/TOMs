@@ -144,8 +144,6 @@ class manageRestrictionDetails(RestrictionTypeUtilsMixin):
         self.actionSplitRestriction.triggered.connect(self.doSplitRestriction)
         self.actionCreateConstructionLine.triggered.connect(self.doCreateConstructionLine)
 
-        pass
-
     def enableTOMsToolbarItems(self, restrictionTransaction):
 
         QgsMessageLog.logMessage("In enableTOMsToolbarItems", tag="TOMs panel")
@@ -188,8 +186,6 @@ class manageRestrictionDetails(RestrictionTypeUtilsMixin):
         self.actionEditRestriction.setEnabled(False)
         self.actionSplitRestriction.setEnabled(False)
         self.actionCreateConstructionLine.setEnabled(False)
-
-        pass
 
     def doSelectRestriction(self):
         """ Select point and then display details

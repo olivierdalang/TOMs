@@ -587,6 +587,15 @@ class RestrictionTypeUtilsMixin():
 
         return returnStatus
 
+    def currentUser(self):
+        """
+        Returns the current proposal
+        """
+        currUser = QgsExpressionContextUtils.projectScope().variable('user_account_name')
+        if not currUser:
+            currUser = ''
+        return str(currUser)
+
     def onSaveRestrictionDetails(self, currRestriction, currRestrictionLayer, dialog, restrictionTransaction):
         QgsMessageLog.logMessage("In onSaveRestrictionDetails: " + str(currRestriction.attribute("GeometryID")), tag="TOMs panel")
 
@@ -599,6 +608,8 @@ class RestrictionTypeUtilsMixin():
             currRestrictionLayerTableID = self.getRestrictionLayerTableID(currRestrictionLayer)
             idxRestrictionID = currRestriction.fieldNameIndex("RestrictionID")
             idxGeometryID = currRestriction.fieldNameIndex("GeometryID")
+            idxCurrentUser = currRestriction.fieldNameIndex("Surveyor")
+            # idxCreateDate = currRestriction.fieldNameIndex("CreateDateTime") # Need to change db fro this??
 
             if self.restrictionInProposal(currRestriction[idxRestrictionID], currRestrictionLayerTableID, currProposalID):
 
@@ -693,6 +704,10 @@ class RestrictionTypeUtilsMixin():
                     newRestriction[idxRestrictionID] = newRestrictionID
                     newRestriction[idxOpenDate] = None
                     newRestriction[idxGeometryID] = None
+                    # Add create date and user details - user currentUser and date
+                    #newRestriction[idxCurrentUser] = self.currentUser()
+                    #newRestriction[idxCreateDateTime] = self.date()
+
                     currRestrictionLayer.addFeatures([newRestriction])
 
                     QgsMessageLog.logMessage(
