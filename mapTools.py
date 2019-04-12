@@ -1247,3 +1247,102 @@ class EditRestrictionTool(QgsMapTool, MapToolMixin):
             if vertex != None:
                 self.onVertexSelected(feature, vertex)"""
 
+class labelTool(QgsMapTool, MapToolMixin):
+    def __init__(self, canvas, layer):
+        QgsMapTool.__init__(self, canvas)
+        #self.onTrackEdited = onTrackEdited
+        self.dragging      = False
+        self.feature       = None
+        self.vertex        = None
+        self.setLayer(layer)   # layer is Labels here ...
+        self.setCursor(Qt.CrossCursor)  # ??
+
+
+    def canvasPressEvent(self, event):
+        """ Respond to the mouse button being pressed.
+        """
+        feature = self.findLabelAt(event.pos())
+        if feature == None:
+            return
+
+        # get point associated with label
+        vertex = self.getLabelPosition(feature)
+        #vertex = self.findVertexAt(feature, event.pos())
+        #if vertex == None: return
+
+        if event.button() == Qt.LeftButton:
+            # Left click -> move vertex.
+            self.dragging = True
+            self.feature  = feature
+            self.vertex   = vertex
+            self.moveVertexTo(event.pos())
+            self.canvas().refresh()
+        elif event.button() == Qt.RightButton:
+            # Right click -> delete vertex.
+            self.breakLinkBetweenRestrictionAndLabel(feature, )
+            #self.canvas().refresh()
+
+
+    def canvasMoveEvent(self, event):
+        if self.dragging:
+            self.moveVertexTo(event.pos())
+            self.canvas().refresh()
+
+
+    def canvasReleaseEvent(self, event):
+        if self.dragging:
+            self.moveVertexTo(event.pos())
+            self.layer.updateExtents()
+            self.canvas().refresh()
+            self.dragging = False
+            self.feature  = None
+            self.vertex   = None
+
+
+    def canvasDoubleClickEvent(self, event):
+        feature = self.findFeatureAt(event.pos())
+        if feature == None:
+            return
+
+        mapPt,layerPt = self.transformCoordinates(event.pos())
+        geometry      = feature.geometry()
+
+        distSquared,closestPt,beforeVertex = \
+            geometry.closestSegmentWithContext(layerPt)
+
+        distance = math.sqrt(distSquared)
+        tolerance = self.calcTolerance(event.pos())
+        if distance > tolerance: return
+
+        geometry.insertVertex(closestPt.x(), closestPt.y(), beforeVertex)
+        self.layer.changeGeometry(feature.id(), geometry)
+        self.onTrackEdited()
+        self.canvas().refresh()
+
+
+    def moveVertexTo(self, pos):
+        """ Move the edited vertex to the given position.
+
+            'pos' is in canvas coordinates.
+        """
+        snappedPt = self.snapToNearestVertex(pos, self.layer, self.feature)
+
+        geometry = self.feature.geometry()
+        layerPt = self.toLayerCoordinates(self.layer, pos)
+        geometry.moveVertex(snappedPt.x(), snappedPt.y(), self.vertex)
+        self.layer.changeGeometry(self.feature.id(), geometry)
+        self.onTrackEdited()
+
+
+    def deleteVertex(self, feature, vertex):
+        """ Delete the given vertex from the given feature's geometry.
+        """
+        geometry = feature.geometry()
+
+        lineString = geometry.asPolyline()
+        if len(lineString) <= 2:
+            return
+
+        if geometry.deleteVertex(vertex):
+            self.layer.changeGeometry(feature.id(), geometry)
+            self.onTrackEdited()

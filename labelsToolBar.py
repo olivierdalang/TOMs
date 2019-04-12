@@ -103,10 +103,17 @@ class labelsToolBar():
         """
         QgsMessageLog.logMessage("In doCreateLabel", tag="TOMs panel")
 
-        self.proposalsManager.TOMsToolChanged.emit()
+        #self.proposalsManager.TOMsToolChanged.emit()
 
         # Get the current proposal from the session variables
         currProposalID = self.proposalsManager.currentProposal()
+
+        if currProposalID == 0:
+            # Ensure that no updates can occur for Proposal = 0
+            self.restrictionTransaction.rollBackTransactionGroup()  # stop any editing
+            return
+
+        self.restrictionTransaction.startTransactionGroup()  # start editing
 
         currRestrictionLayer = self.iface.activeLayer()
 
@@ -121,11 +128,6 @@ class labelsToolBar():
 
         if currRestrictionLayer.selectedFeatureCount() > 0:
 
-            if currProposalID == 0:
-                # Ensure that no updates can occur for Proposal = 0
-                self.restrictionTransaction.rollBackTransactionGroup() # stop any editing
-            else:
-                self.restrictionTransaction.startTransactionGroup()  # start editing
 
             selectedRestrictions = currRestrictionLayer.selectedFeatures()
             for currRestriction in selectedRestrictions:
@@ -150,12 +152,135 @@ class labelsToolBar():
     def doMoveLabel(self):
         QgsMessageLog.logMessage("In doMoveLabel", tag="TOMs panel")
 
+        """
+        Logic is:
+         - select label and drag. Save inside maptool ??
+        """
+
+        self.mapTool = moveLabelTool(self.iface, self.proposalsManager, self.restrictionTransaction)
+
+        self.mapTool.setAction(self.actionMoveLabel)
+        self.iface.mapCanvas().setMapTool(self.mapTool)
+
     def doLinkLabelToRestriction(self):
         QgsMessageLog.logMessage("In doLinkLabelToRestriction", tag="TOMs panel")
+
+        """
+        Logic is:
+            ensure that restriction is selected
+            Start Transaction (if not current)
+            select label and set up links
+            Commit ...
+
+        """
+
+        # self.proposalsManager.TOMsToolChanged.emit()
+
+        # Get the current proposal from the session variables
+        currProposalID = self.proposalsManager.currentProposal()
+
+        if currProposalID == 0:
+            # Ensure that no updates can occur for Proposal = 0
+            self.restrictionTransaction.rollBackTransactionGroup()  # stop any editing
+            return
+
+        self.restrictionTransaction.startTransactionGroup()  # start editing
+
+        currRestrictionLayer = self.iface.activeLayer()
+
+        if not currRestrictionLayer:
+            reply = QMessageBox.information(self.iface.mainWindow(), "Information",
+                                            "Select restriction first ... ",
+                                            QMessageBox.Ok)
+            return
+
+        QgsMessageLog.logMessage("In doLinkLabelToRestriction. currLayer: " + str(
+            currRestrictionLayer.name() + " Nr feats: " + str(currRestrictionLayer.selectedFeatureCount())),
+                                 tag="TOMs panel")
+
+        if currRestrictionLayer.selectedFeatureCount() > 0:
+
+            selectedRestrictions = currRestrictionLayer.selectedFeatures()
+            for currRestriction in selectedRestrictions:
+                # self.restrictionForm = BayRestrictionForm(currRestrictionLayer, currRestriction)
+                # self.restrictionForm.show()
+
+                # now select label
+
+                label = self.selectLabel()
+
+                if not label:
+                    reply = QMessageBox.information(self.iface.mainWindow(), "Error",
+                                                    "Problem creating label",
+                                                    QMessageBox.Ok)
+                    return
+
+                QgsMessageLog.logMessage(
+                    "In doLinkLabelToRestriction. currRestrictionLayer: " + str(currRestrictionLayer.name()),
+                    tag="TOMs panel")
+
+                # Now create linkages
+                self.linkRestrictionAndLabel(currRestriction, currRestrictionLayer, currProposalID,
+                                        self.proposalsManager, self.restrictionTransaction)
+                # TODO: Check behaviour for multiple select ...
 
     def doBreakLinkBetweenLabelAndRestriction(self):
         QgsMessageLog.logMessage("In doBreakLinkBetweenLabelAndRestriction", tag="TOMs panel")
 
+        """
+        Logic is:
+            ensure that restriction is selected
+            Start Transaction (if not current)
+            generate appropriate label, i.e., work out type (colour, etc) and text (from lookup??)
+            position (perhaps horizontal in the middle of the restriction. It can then be moved.
+            Commit ...
+
+        """
+
+        # self.proposalsManager.TOMsToolChanged.emit()
+
+        # Get the current proposal from the session variables
+        currProposalID = self.proposalsManager.currentProposal()
+
+        if currProposalID == 0:
+            # Ensure that no updates can occur for Proposal = 0
+            self.restrictionTransaction.rollBackTransactionGroup()  # stop any editing
+            return
+
+        self.restrictionTransaction.startTransactionGroup()  # start editing
+
+        currRestrictionLayer = self.iface.activeLayer()
+
+        if not currRestrictionLayer:
+            reply = QMessageBox.information(self.iface.mainWindow(), "Information",
+                                            "Select restriction first and then choose information button",
+                                            QMessageBox.Ok)
+            return
+
+        QgsMessageLog.logMessage("In doCreateLabel. currLayer: " + str(
+            currRestrictionLayer.name() + " Nr feats: " + str(currRestrictionLayer.selectedFeatureCount())),
+                                 tag="TOMs panel")
+
+        if currRestrictionLayer.selectedFeatureCount() > 0:
+
+            selectedRestrictions = currRestrictionLayer.selectedFeatures()
+            for currRestriction in selectedRestrictions:
+                # self.restrictionForm = BayRestrictionForm(currRestrictionLayer, currRestriction)
+                # self.restrictionForm.show()
+
+                # now create label
+
+                if not self.createLabel(currRestriction, currRestrictionLayer, currProposalID):
+                    reply = QMessageBox.information(self.iface.mainWindow(), "Error",
+                                                    "Problem creating label",
+                                                    QMessageBox.Ok)
+                    return
+
+                QgsMessageLog.logMessage(
+                    "In doCreateLabel. currRestrictionLayer: " + str(currRestrictionLayer.name()),
+                    tag="TOMs panel")
+
+                # TODO: Check behaviour for multiple select ...
 
     def createLabel (self, currRestriction, currRestrictionLayer, currProposalID):
 
