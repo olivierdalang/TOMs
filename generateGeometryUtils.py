@@ -834,13 +834,13 @@ class generateGeometryUtils:
 
         if currScale <= minScale:
 
-            if feature.attribute("labelX"):
+            if feature.attribute("label_X"):
                 #QgsMessageLog.logMessage(
                 #    "In generateLabelLeader. labelX set for " + str(feature.attribute("GeometryID")), tag="TOMs panel")
 
                 # now generate line
                 length = feature.geometry().length()
-                return QgsGeometry.fromPolyline([feature.geometry().interpolate(length/2.0).asPoint(), QgsPoint(feature.attribute("labelX"), feature.attribute("labelY"))])
+                return QgsGeometry.fromPolyline([feature.geometry().interpolate(length/2.0).asPoint(), QgsPoint(feature.attribute("label_X"), feature.attribute("label_Y"))])
 
             pass
 
@@ -861,13 +861,13 @@ class generateGeometryUtils:
 
         if currScale <= minScale:
 
-            if feature.attribute("labelLoadingX"):
+            if feature.attribute("labelLoading_X"):
                 #QgsMessageLog.logMessage(
                 #    "In generateLabelLeader. labelX set for " + str(feature.attribute("GeometryID")), tag="TOMs panel")
 
                 # now generate line
                 length = feature.geometry().length()
-                return QgsGeometry.fromPolyline([feature.geometry().interpolate(length/2.0).asPoint(), QgsPoint(feature.attribute("labelLoadingX"), feature.attribute("labelLoadingY"))])
+                return QgsGeometry.fromPolyline([feature.geometry().interpolate(length/2.0).asPoint(), QgsPoint(feature.attribute("labelLoading_X"), feature.attribute("labelLoading_Y"))])
 
             pass
 
@@ -915,14 +915,14 @@ class generateGeometryUtils:
 
         if currScale <= minScale:
 
-            if feature.attribute("labelX"):
+            if feature.attribute("label_X"):
                 QgsMessageLog.logMessage(
-                    "In generatePolygonLabelLeader. labelX set for " + str(feature.attribute("GeometryID")), tag="TOMs panel")
+                    "In generatePolygonLabelLeader. label_X set for " + str(feature.attribute("GeometryID")), tag="TOMs panel")
 
                 pt = feature.geometry().nearestPoint()
 
                 # now generate line
-                return QgsGeometry.fromPolyline([feature.geometry().nearestPoint().asPoint(), QgsPoint(feature.attribute("labelX"), feature.attribute("labelY"))])
+                return QgsGeometry.fromPolyline([feature.geometry().nearestPoint().asPoint(), QgsPoint(feature.attribute("label_X"), feature.attribute("label_Y"))])
 
             pass
 
