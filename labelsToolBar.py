@@ -136,7 +136,8 @@ class labelsToolBar():
 
                 # now create label
 
-                if not self.createLabel(currRestriction, currRestrictionLayer, currProposalID):
+                if not self.createLabel(currRestriction, currRestrictionLayer, currProposalID,
+                                        self.proposalsManager, self.restrictionTransaction):
                     reply = QMessageBox.information(self.iface.mainWindow(), "Error",
                                                     "Problem creating label",
                                                     QMessageBox.Ok)
@@ -157,7 +158,7 @@ class labelsToolBar():
          - select label and drag. Save inside maptool ??
         """
 
-        self.mapTool = moveLabelTool(self.iface, self.proposalsManager, self.restrictionTransaction)
+        self.mapTool = labelTool(self.iface, self.proposalsManager, self.restrictionTransaction)
 
         self.mapTool.setAction(self.actionMoveLabel)
         self.iface.mapCanvas().setMapTool(self.mapTool)
@@ -220,7 +221,7 @@ class labelsToolBar():
                     tag="TOMs panel")
 
                 # Now create linkages
-                self.linkRestrictionAndLabel(currRestriction, currRestrictionLayer, currProposalID,
+                self.linkRestrictionAndLabel(currRestriction, currRestrictionLayer, currProposalID, label,
                                         self.proposalsManager, self.restrictionTransaction)
                 # TODO: Check behaviour for multiple select ...
 
@@ -231,8 +232,9 @@ class labelsToolBar():
         Logic is:
             ensure that restriction is selected
             Start Transaction (if not current)
-            generate appropriate label, i.e., work out type (colour, etc) and text (from lookup??)
-            position (perhaps horizontal in the middle of the restriction. It can then be moved.
+            select label and confirm break
+            Check whether or not there are any other restrictions connected to label
+            If not, delete
             Commit ...
 
         """
@@ -253,11 +255,11 @@ class labelsToolBar():
 
         if not currRestrictionLayer:
             reply = QMessageBox.information(self.iface.mainWindow(), "Information",
-                                            "Select restriction first and then choose information button",
+                                            "Select restriction first and then choose label",
                                             QMessageBox.Ok)
             return
 
-        QgsMessageLog.logMessage("In doCreateLabel. currLayer: " + str(
+        QgsMessageLog.logMessage("In doBreakLinkBetweenLabelAndRestriction. currLayer: " + str(
             currRestrictionLayer.name() + " Nr feats: " + str(currRestrictionLayer.selectedFeatureCount())),
                                  tag="TOMs panel")
 
@@ -268,32 +270,67 @@ class labelsToolBar():
                 # self.restrictionForm = BayRestrictionForm(currRestrictionLayer, currRestriction)
                 # self.restrictionForm.show()
 
-                # now create label
+                label = self.selectLabel()
 
-                if not self.createLabel(currRestriction, currRestrictionLayer, currProposalID):
+                if not label:
                     reply = QMessageBox.information(self.iface.mainWindow(), "Error",
                                                     "Problem creating label",
                                                     QMessageBox.Ok)
                     return
 
                 QgsMessageLog.logMessage(
-                    "In doCreateLabel. currRestrictionLayer: " + str(currRestrictionLayer.name()),
+                    "In doLinkLabelToRestriction. currRestrictionLayer: " + str(currRestrictionLayer.name()),
                     tag="TOMs panel")
 
+                # Now create linkages
+                self.breakLinkBetweenLabelAndRestriction(currRestriction, currRestrictionLayer, currProposalID, label,
+                                        self.proposalsManager, self.restrictionTransaction)
                 # TODO: Check behaviour for multiple select ...
 
-    def createLabel (self, currRestriction, currRestrictionLayer, currProposalID):
+
+    def createLabel (self, currRestriction, currRestrictionLayer, currProposalID,
+                     proposalsManager, restrictionTransaction):
 
         # Find centre point of restriction
         labelPoint = self.getCentreOfRestriction (currRestriction)
 
         # Work out characteristics of layer, i.e., what information is required in label and what colours
-        labelTypes = self.getLabelType(currRestrictionLayer)  # NB: there could be multiple types here, e.g., waiting and loading
+        labelTypes = self.getLabelTypes(currRestrictionLayer)  # NB: there could be multiple types here, e.g., waiting and loading
         # labelTypes could be list ??
 
         # Create ...
-        for item in labelTypes:   # will also need to know iteration so can generate offsets
-            self.makeLabel(currRestriction, labelPoint, item)
+        for labelType in labelTypes:   # will also need to know iteration so can generate offsets
+            self.makeLabel(currRestriction, labelPoint, labelType)
 
 
         return True
+
+    def getLabelTypes(self, restrictionLayer):
+        # given current restriction layer, search LABEL_TYPES to get types associated with layer ...
+
+        pass
+
+    def makeLabel(self, currRestriction, labelPoint, labelType, currProposalID,
+                  proposalsManager, restrictionTransaction):
+        # from the currentRestriction, pick up text for LabelType
+
+        labelText = self.getLabelText(currRestriction, labelType)
+
+        labelID = self.addLabel(labelPoint, labelType, currProposalID,
+                  proposalsManager, restrictionTransaction)
+
+        status = self.addRestrictionWithLabel(currRestriction, labelID, currProposalID,
+                  proposalsManager, restrictionTransaction)
+
+        pass
+
+    def linkRestrictionAndLabel(self, currRestriction, currRestrictionLayer, currProposalID, label,
+                                 proposalsManager, restrictionTransaction):
+
+        pass
+
+    def breakLinkBetweenLabelAndRestriction(self):
+        pass
+
+    def getLabelText(self):
+        pass

@@ -85,6 +85,7 @@ class TOMsTransaction (QObject):
 
         self.setTransactionGroup = [self.tableNames.PROPOSALS]
         self.setTransactionGroup.append(self.tableNames.RESTRICTIONS_IN_PROPOSALS)
+        self.setTransactionGroup.append(self.tableNames.RESTRICTIONS_WITH_LABELS)
         self.setTransactionGroup.append(self.tableNames.MAP_GRID)
         self.setTransactionGroup.append(self.tableNames.TILES_IN_ACCEPTED_PROPOSALS)
 
@@ -391,12 +392,6 @@ class setupTableNames():
             QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table ParkingTariffAreas is not present"))
             found = False
 
-        if QgsMapLayerRegistry.instance().mapLayersByName("StreetGazetteerRecords"):
-            self.GAZETTEER = QgsMapLayerRegistry.instance().mapLayersByName("StreetGazetteerRecords")[0]
-        else:
-            QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table StreetGazetteerRecords is not present"))
-            found = False
-
         if QgsMapLayerRegistry.instance().mapLayersByName("RoadCentreLine"):
             self.GAZETTEER = QgsMapLayerRegistry.instance().mapLayersByName("RoadCentreLine")[0]
         else:
@@ -415,6 +410,26 @@ class setupTableNames():
             QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table TilesInAcceptedProposals is not present"))
             found = False
 
+        if QgsMapLayerRegistry.instance().mapLayersByName("Labels"):
+            self.LABELS = \
+            QgsMapLayerRegistry.instance().mapLayersByName("Labels")[0]
+        else:
+            QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table Labels is not present"))
+            found = False
+
+        if QgsMapLayerRegistry.instance().mapLayersByName("LabelTypes"):
+            self.LABEL_TYPES = \
+            QgsMapLayerRegistry.instance().mapLayersByName("LabelTypes")[0]
+        else:
+            QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table LabelTypes is not present"))
+            found = False
+
+        if QgsMapLayerRegistry.instance().mapLayersByName("RestrictionsWithLabels"):
+            self.RESTRICTIONS_WITH_LABELS = \
+            QgsMapLayerRegistry.instance().mapLayersByName("RestrictionsWithLabels")[0]
+        else:
+            QMessageBox.information(self.iface.mainWindow(), "ERROR", ("Table RestrictionsWithLabels is not present"))
+            found = False
 
         # TODO: need to deal with any errors arising ...
 

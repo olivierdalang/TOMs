@@ -147,6 +147,73 @@ class MapToolMixin:
 
         pass
 
+    def findNearestLabel(self, pos):
+        #  def findFeatureAt(self, pos, excludeFeature=None):
+        # http://www.lutraconsulting.co.uk/blog/2014/10/17/getting-started-writing-qgis-python-plugins/ - generates "closest feature" function
+
+        """ Find the feature close to the given position.
+
+            'pos' is the position to check, in canvas coordinates.
+
+            if 'excludeFeature' is specified, we ignore this feature when
+            finding the clicked-on feature.
+
+            If no feature is close to the given coordinate, we return None.
+        """
+        mapPt = self.transformCoordinates(pos)
+        #tolerance = self.calcTolerance(pos)
+        tolerance = 0.5
+        searchRect = QgsRectangle(mapPt.x() - tolerance,
+                                  mapPt.y() - tolerance,
+                                  mapPt.x() + tolerance,
+                                  mapPt.y() + tolerance)
+
+        request = QgsFeatureRequest()
+        request.setFilterRect(searchRect)
+        request.setFlags(QgsFeatureRequest.ExactIntersect)
+
+        '''for feature in self.layer.getFeatures(request):
+            if excludeFeature != None:
+                if feature.id() == excludeFeature.id():
+                    continue
+            return feature '''
+
+        #self.RestrictionLayers = QgsMapLayerRegistry.instance().mapLayersByName("RestrictionLayers")[0]
+
+        #currLayer = self.TOMslayer  # need to loop through the layers and choose closest to click point
+        #iface.setActiveLayer(currLayer)
+
+        shortestDistance = float("inf")
+
+        featureList = []
+        layerList = []
+
+        #for layerDetails in self.RestrictionLayers.getFeatures():
+
+            #self.currLayer = RestrictionTypeUtilsMixin.getRestrictionsLayer (layerDetails)
+
+        # Loop through all features in the layer to find the closest feature
+        for f in self.tableNames.LABELS.getFeatures(request):
+            # Add any features that are found should be added to a list
+            featureList.append(f)
+            layerList.append(self.currLayer)
+
+            dist = f.geometry().distance(QgsGeometry.fromPoint(mapPt))
+            if dist < shortestDistance:
+                shortestDistance = dist
+                closestFeature = f
+                closestLayer = self.currLayer
+
+        #QgsMessageLog.logMessage("In findNearestFeatureAt: shortestDistance: " + str(shortestDistance), tag="TOMs panel")
+        QgsMessageLog.logMessage("In findNearestFeatureAt: nrFeatures: " + str(len(featureList)), tag="TOMs panel")
+
+        if shortestDistance < float("inf"):
+            return closestFeature, closestLayer
+        else:
+            return None, None
+
+        pass
+
     def findVertexAt(self, feature, pos):
         """ Find the vertex of the given feature close to the given position.
 
@@ -1193,59 +1260,6 @@ class EditRestrictionTool(QgsMapTool, MapToolMixin):
             self.onTrackEdited()
 
 #############################################################################
-
-    """class RemoveRestrictionTool(QgsMapTool, MapToolMixin):
-    def __init__(self, iface, onRemoveRestriction):
-        QgsMapTool.__init__(self, iface.mapCanvas())
-        self.iface = iface
-        #self.layer = layer
-        #self.onTrackDeleted = onTrackDeleted
-        self.feature        = None
-        #self.setLayer(layer)
-        self.setCursor(Qt.CrossCursor)
-        # set up function to be called when capture is complete
-        self.onRemoveRestriction = onRemoveRestriction
-
-    def canvasReleaseEvent(self, event):
-        # Return point under cursor
-        closestFeature, closestLayer = self.findNearestFeatureAt(event.pos())
-
-        QgsMessageLog.logMessage(("In Remove - canvasReleaseEvent."), tag="TOMs panel")
-
-        if closestFeature == None:
-            return
-
-        # Need to deal with situation where there is a dual (or more) restriction. Will need to have a dialog to decide which restriction to delete
-
-        QgsMessageLog.logMessage(("In Remove - canvasReleaseEvent. Feature selected from layer: " + closestLayer.name()), tag="TOMs panel")
-
-        closestLayer.startEditing()
-
-        self.onRemoveRestriction(closestLayer, closestFeature)
-        #self.onDisplayRestrictionDetails(feature, self.layer)"""
-
-
-#############################################################################
-
-    #class SelectVertexTool(QgsMapTool, MapToolMixin):
-    """ Map tool to let user select a vertex.
-
-        We use this to let the user select a starting or ending point for the
-        shortest route calculator.
-    """
-    """def __init__(self, canvas, trackLayer, onVertexSelected):
-        QgsMapTool.__init__(self, canvas)
-        self.onVertexSelected = onVertexSelected
-        self.setLayer(trackLayer)
-        self.setCursor(Qt.CrossCursor)
-
-
-    def canvasReleaseEvent(self, event):
-        feature = self.findFeatureAt(event.pos())
-        if feature != None:
-            vertex = self.findVertexAt(feature, event.pos())
-            if vertex != None:
-                self.onVertexSelected(feature, vertex)"""
 
 class labelTool(QgsMapTool, MapToolMixin):
     def __init__(self, canvas, layer):
