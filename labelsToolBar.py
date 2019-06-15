@@ -302,7 +302,6 @@ class labelsToolBar():
         for labelType in labelTypes:   # will also need to know iteration so can generate offsets
             self.makeLabel(currRestriction, labelPoint, labelType)
 
-
         return True
 
     def getLabelTypes(self, restrictionLayer):
@@ -316,21 +315,151 @@ class labelsToolBar():
 
         labelText = self.getLabelText(currRestriction, labelType)
 
-        labelID = self.addLabel(labelPoint, labelType, currProposalID,
+        labelID = self.addLabel(labelPoint, labelType, labelText, currProposalID,
                   proposalsManager, restrictionTransaction)
 
-        status = self.addRestrictionWithLabel(currRestriction, labelID, currProposalID,
+        status = linkRestrictionAndLabel(currRestriction, currRestrictionLayer, currProposalID, labelID,
+                                 proposalsManager, restrictionTransaction)
+
+        # TODO: Need to create the leader ...
+        self.createLeaderForLabel(currRestriction, labelID)
+
+        status = self.addLabelToProposal(currRestriction, labelID, currProposalID,
                   proposalsManager, restrictionTransaction)
 
+
+    def addLabel(self, labelPoint, labelType, labelText, currProposalID,
+                  proposalsManager, restrictionTransaction):
+        labelID = 0
+        # add feature to LABELS layer
+        QgsMessageLog.logMessage("In addLabel.", tag="TOMs panel")
+
+        newLabel = QgsFeature(self.LABELS.fields())
+        newLabel.setGeometry(labelPoint.geometry())
+
+        idxRestrictionID = newLabel.fieldNameIndex("RestrictionID")
+        #idxGeometryID = currRestriction.fieldNameIndex("GeometryID")
+        idxCurrentUser = newLabel.fieldNameIndex("Surveyor")
+
+        # may need to add specific X, Y fields to symbolise ??
+
+        # set up attributes
+        #newLabel
+        newRestrictionID = str(uuid.uuid4())
+
+        newLabel[idxRestrictionID] = newRestrictionID
+        #newLabel[idxOpenDate] = None
+        #newLabel[idxGeometryID] = None
+
+        # Add create date and user details - user currentUser and date
+        # newRestriction[idxCurrentUser] = self.currentUser()
+        # newRestriction[idxCreateDateTime] = self.date()
+
+        self.LABELS.addFeatures([newLabel])
+
+        QgsMessageLog.logMessage(
+            "In addLabel. Before record create. RestrictionID: " + str(newRestrictionID),
+            tag="TOMs panel")
+
+        #attrs = newRestrictionsInProposal.attributes()
+
+        # QMessageBox.information(None, "Information", ("addRestrictionToProposal" + str(attrs)))
+
+        #returnStatus = RestrictionsInProposalsLayer.addFeatures([newRestrictionsInProposal])
+
+        return returnStatus
+
+        return labelID
+
+    def addLabelForRestrictionToProposal(self, currRestrictionID, labelID, currProposalID,
+                  proposalsManager, restrictionTransaction):
+        # add details into RestrictionsInProposal
+        restrictionWithlabelsTableID = getRestrictionLayerTableID(self, self.RESTRICTIONS_WITH_LABELS)
+        status = addRestrictionToProposal(currRestrictionID, restrictionWithlabelsTableID, currProposalID, ACTION_OPEN_RESTRICTION())
         pass
 
-    def linkRestrictionAndLabel(self, currRestriction, currRestrictionLayer, currProposalID, label,
+    def linkRestrictionAndLabel(self, currRestrictionID, currRestrictionLayer, currProposalID, labelID,
                                  proposalsManager, restrictionTransaction):
+
+        # Add label/restriction details to RESTRICTIONS_WITH_LABELS
+
+        newLabelForRestriction = QgsFeature(self.RESTRICTIONS_WITH_LABELS.fields())
+
+        idxLabelForRestrictionID = newLabelForRestriction.fieldNameIndex("LabelForRestrictionID")
+        #idxGeometryID = currRestriction.fieldNameIndex("GeometryID")
+        idxCurrentUser = newLabelForRestriction.fieldNameIndex("Surveyor")
+        idxRestrictionID = newLabelForRestriction.fieldNameIndex("RestrictionID")
+        idxLabelID = newLabelForRestriction.fieldNameIndex("LabelID")
+        idxLastUpdateDateTime = newLabelForRestriction.fieldNameIndex("LastUpdateDateTime")  # Need to change db fro this??
+
+        # set up attributes
+        newLabelForRestrictionID = str(uuid.uuid4())
+
+        newLabelForRestriction[idxLabelForRestrictionID] = newLabelForRestrictionID
+        #newLabelForRestriction[idxOpenDate] = None
+        #newLabelForRestriction[idxGeometryID] = None
+        newLabelForRestriction[idxCurrentUser] = self.currentUser()
+        newLabelForRestriction[idxRestrictionID] = currRestrictionID
+        newLabelForRestriction[idxLabelID] = labelID
+        newLabelForRestriction[idxLastUpdateDateTime] = self.datetime()
+
+        # Add create date and user details - user currentUser and date
+        # newRestriction[idxCurrentUser] = self.currentUser()
+        # newRestriction[idxCreateDateTime] = self.date()
+
+        self.RESTRICTIONS_WITH_LABELS.addFeatures([newLabelForRestriction])
+
+        QgsMessageLog.logMessage(
+            "In linkRestrictionAndLabel. Before record create. newLabelForRestrictionID: " + str(newLabelForRestrictionID),
+            tag="TOMs panel")
 
         pass
 
     def breakLinkBetweenLabelAndRestriction(self):
         pass
 
-    def getLabelText(self):
+    def getLabelText(self, currRestriction, labelType):
+        # get the relevant text for the label
+
+        if currRestriction(restType) < 100:
+            # bay type ...
+            try:
+                # QgsMessageLog.logMessage("In getBayTimePeriodLabelText:", tag="TOMs panel")
+
+                maxStayText, noReturnText, timePeriodText = generateGeometryUtils.getBayRestrictionLabelText(feature)
+
+            except:
+                QgsMessageLog.logMessage('getBayTimePeriodLabelText', tag="TOMs panel")
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                QgsMessageLog.logMessage(
+                    'getBayTimePeriodLabelText: error in expression function: ' + str(
+                        repr(traceback.extract_tb(exc_traceback))),
+                    tag="TOMs panel")
+
+            labelText = ''  # generate ...
+
+        elif currRestriction(restType) < 200:
+            try:
+                waitingText, loadingText = generateGeometryUtils.getWaitingLoadingRestrictionLabelText(feature)
+            except:
+                QgsMessageLog.logMessage('getWaitingRestrictionLabelText', tag="TOMs panel")
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                QgsMessageLog.logMessage(
+                    'getWaitingRestrictionLabelText: error in expression function: ' + str(
+                        repr(traceback.extract_tb(exc_traceback))),
+                    tag="TOMs panel")
+
+                # QgsMessageLog.logMessage("In getWaitingRestrictionLabelText ****:" + " Waiting: " + str(waitingText) + " Loading: " + str(loadingText), tag="TOMs panel")
+                # waitingText = "Test"
+            if waitingText:
+                labelText = "No Waiting: " + waitingText
+                labelText = waitingText
+
+        elif currRestriction(restType) < 300:
+            pass
+
+        ### TO DO: Not sure what else ??
+
+        return None
+
         pass
