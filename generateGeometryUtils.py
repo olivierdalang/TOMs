@@ -547,7 +547,10 @@ class generateGeometryUtils:
             # divide parallelLine by the number of bays
             pass
 
-        return outputGeometry
+        if outputGeometry:
+            return outputGeometry
+        else:
+            return feature.geometry()
 
     @staticmethod
     def checkFeatureIsBay(restGeomType):
@@ -565,7 +568,7 @@ class generateGeometryUtils:
         # Need to check why the project variable function is not working
 
         restrictionID = feature.attribute("GeometryID")
-        #QgsMessageLog.logMessage("In getDisplayGeometry: New restriction .................................................................... ID: " + str(restrictionID), tag="TOMs panel")
+        QgsMessageLog.logMessage("In getDisplayGeometry: New restriction .................................................................... ID: " + str(restrictionID), tag="TOMs panel")
         # restGeomType = feature.attribute("GeomShapeID")
         #AzimuthToCentreLine = float(feature.attribute("AzimuthToRoadCentreLine"))
         #QgsMessageLog.logMessage("In getDisplayGeometry: Az: " + str(AzimuthToCentreLine), tag = "TOMs panel")
@@ -597,8 +600,8 @@ class generateGeometryUtils:
 
         # QgsMessageLog.logMessage("In getDisplayGeometry:  nr of pts = " + str(len(line)), tag="TOMs panel")
 
-        if len(line) == 0:
-            return 0
+        if not line or len(line) == 0:
+            return
 
         # Now have a valid set of points
 

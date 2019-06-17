@@ -47,6 +47,7 @@ def generate_display_geometry(geometryID, restGeomType, AzimuthToCenterLine, off
         QgsMessageLog.logMessage(
             'generate_display_geometry error in expression function: ' + str(repr(traceback.extract_tb(exc_traceback))),
             tag="TOMs panel")
+        res = None
 
     return res
 
@@ -62,7 +63,8 @@ def generateDisplayGeometry(geometryID, restGeomType, AzimuthToCenterLine, offse
     except:
         QgsMessageLog.logMessage('generate_display_geometry', tag="TOMs panel")
         exc_type, exc_value, exc_traceback = sys.exc_info()
-        QgsMessageLog.logMessage('generate_display_geometry error in expression function: ' + str(repr(traceback.extract_tb(exc_traceback))), tag="TOMs panel")
+        QgsMessageLog.logMessage('generateDisplayGeometry error in expression function: ' + str(repr(traceback.extract_tb(exc_traceback))), tag="TOMs panel")
+        res = None
 
     return res
 
