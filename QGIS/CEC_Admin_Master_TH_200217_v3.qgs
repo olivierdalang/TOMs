@@ -21,16 +21,16 @@
     <customproperties/>
     <layer-tree-group expanded="1" name="Restrictions" checked="Qt::Checked">
       <customproperties/>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="Bays" id="Bays20190906115347986" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Bays&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="Bays" id="Bays20190906115347986" source="service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Bays&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="Lines" id="Lines20190906115422594" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Lines&quot; (geom) sql=&quot;RestrictionID&quot;  IN ('2d844884-edbd-4760-a7f0-52b276cfe941') OR (&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL) AND &quot;RestrictionID&quot; NOT IN ('L_38')))" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="Lines" id="Lines20190906115422594" source="service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Lines&quot; (geom) sql=&quot;RestrictionID&quot;  IN ('2d844884-edbd-4760-a7f0-52b276cfe941') OR (&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL) AND &quot;RestrictionID&quot; NOT IN ('L_38')))" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="RestrictionPolygons" id="RestrictionPolygons20190906115446443" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='GeometryID' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionPolygons&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="RestrictionPolygons" id="RestrictionPolygons20190906115446443" source="service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionPolygons&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="Signs" id="Signs20190906115517850" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='GeometryID' srid=27700 type=Point checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Signs&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="Signs" id="Signs20190906115517850" source="service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=Point checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Signs&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
       <layer-tree-layer providerKey="memory" expanded="1" name="ConstructionLines" id="ConstructionLines20181021235512146" source="memory?geometry=LineString&amp;crs=EPSG:27700&amp;uid={7e831a9c-e2d4-4786-8686-7f93ef1c1924}" checked="Qt::Checked">
@@ -39,127 +39,127 @@
     </layer-tree-group>
     <layer-tree-group expanded="0" name="Zones" checked="Qt::Checked">
       <customproperties/>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="CPZs" id="ControlledParkingZones20181021150204260" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ControlledParkingZones&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="CPZs" id="ControlledParkingZones20181021150204260" source="service='toms_EDI_VM_TEST_admin' key='gid' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ControlledParkingZones&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="ParkingTariffAreas" id="ParkingTariffAreas20181021150204193" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ParkingTariffAreas&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="ParkingTariffAreas" id="ParkingTariffAreas20181021150204193" source="service='toms_EDI_VM_TEST_admin' key='id' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ParkingTariffAreas&quot; (geom) sql=&quot;OpenDate&quot; &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND ((&quot;CloseDate&quot; > to_date('20-02-2020', 'dd-MM-yyyy')  OR &quot;CloseDate&quot; IS NULL))" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
     </layer-tree-group>
     <layer-tree-group expanded="0" name="Lookup Tables" checked="Qt::Checked">
       <customproperties/>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="BayTypes" id="BayTypes_e002d408_df4b_40cd_83cf_d5d45f4317f5" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 sslmode=disable authcfg=6m0o2jn key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BayTypes&quot; sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="BayTypes" id="BayTypes_e002d408_df4b_40cd_83cf_d5d45f4317f5" source="service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BayTypes&quot; sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="LineTypes" id="LineTypes_b3df85c5_3af7_4ab8_aec4_b591d8529d9c" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 sslmode=disable authcfg=6m0o2jn key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;LineTypes&quot; sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="LineTypes" id="LineTypes_b3df85c5_3af7_4ab8_aec4_b591d8529d9c" source="service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;LineTypes&quot; sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="ActionOnProposalAcceptanceTypes" id="ActionOnProposalAcceptanceTypes20181021160243483" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ActionOnProposalAcceptanceTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="ActionOnProposalAcceptanceTypes" id="ActionOnProposalAcceptanceTypes20181021160243483" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ActionOnProposalAcceptanceTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="BayLinesFadedTypes" id="BayLinesFadedTypes20181021160243383" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BayLinesFadedTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="BayLinesFadedTypes" id="BayLinesFadedTypes20181021160243383" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BayLinesFadedTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="BayLineTypes" id="BayLineTypes_afc2917f_61e6_4366_8de9_957f9be4f39b" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 sslmode=disable authcfg=6m0o2jn key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BayLineTypes&quot; sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="BayLineTypes" id="BayLineTypes_afc2917f_61e6_4366_8de9_957f9be4f39b" source="service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BayLineTypes&quot; sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="BaysLines_SignIssueTypes" id="BaysLines_SignIssueTypes20181021160243020" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BaysLines_SignIssueTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="BaysLines_SignIssueTypes" id="BaysLines_SignIssueTypes20181021160243020" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;BaysLines_SignIssueTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="baysWordingTypes" id="baysWordingTypes20181021160242844" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;baysWordingTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="baysWordingTypes" id="baysWordingTypes20181021160242844" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;baysWordingTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="baytypes" id="baytypes20181021160242595" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;baytypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="baytypes" id="baytypes20181021160242595" source="service='toms_EDI_VM_TEST_admin' key='gid' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;baytypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="LengthOfTime" id="LengthOfTime20181021160242420" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;LengthOfTime&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="LengthOfTime" id="LengthOfTime20181021160242420" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;LengthOfTime&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="linetypes" id="linetypes20181021160242084" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;linetypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="linetypes" id="linetypes20181021160242084" source="service='toms_EDI_VM_TEST_admin' key='gid' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;linetypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="PaymentTypes" id="PaymentTypes20181021160241858" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;PaymentTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="PaymentTypes" id="PaymentTypes20181021160241858" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;PaymentTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="Proposals" id="Proposals20181109085019977" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='ProposalID' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Proposals&quot; sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="Proposals" id="Proposals20181109085019977" source="service='toms_EDI_VM_TEST_admin' key='ProposalID' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Proposals&quot; sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="ProposalStatusTypes" id="ProposalStatusTypes20181021160241599" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ProposalStatusTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="ProposalStatusTypes" id="ProposalStatusTypes20181021160241599" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;ProposalStatusTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionLayers" id="RestrictionLayers20181021160241536" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionLayers&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionLayers" id="RestrictionLayers20181021160241536" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionLayers&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionPolygonTypes" id="RestrictionPolygonTypes20181021160241458" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionPolygonTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionPolygonTypes" id="RestrictionPolygonTypes20181021160241458" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionPolygonTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionShapeTypes" id="RestrictionShapeTypes20181021160241302" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionShapeTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionShapeTypes" id="RestrictionShapeTypes20181021160241302" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionShapeTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionsInProposals" id="RestrictionsInProposals20181021160241231" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='ProposalID,RestrictionTableID,RestrictionID' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionsInProposals&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionsInProposals" id="RestrictionsInProposals20181021160241231" source="service='toms_EDI_VM_TEST_admin' key='ProposalID,RestrictionTableID,RestrictionID' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionsInProposals&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionStatus" id="RestrictionStatus20181021160241132" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionStatus&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionStatus" id="RestrictionStatus20181021160241132" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionStatus&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionTypes" id="RestrictionTypes20181021160240889" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RestrictionTypes" id="RestrictionTypes20181021160240889" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;RestrictionTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="SignAttachmentTypes" id="SignAttachmentTypes20181021160240715" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignAttachmentTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="SignAttachmentTypes" id="SignAttachmentTypes20181021160240715" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignAttachmentTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="SignFadedTypes" id="SignFadedTypes20181021160240598" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignFadedTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="SignFadedTypes" id="SignFadedTypes20181021160240598" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignFadedTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="SignMountTypes" id="SignMountTypes20181021160240501" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignMountTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="SignMountTypes" id="SignMountTypes20181021160240501" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignMountTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="SignObscurredTypes" id="SignObscurredTypes20181021160240344" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignObscurredTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="SignObscurredTypes" id="SignObscurredTypes20181021160240344" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignObscurredTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="SignTypes" id="SignTypes20181021160240168" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="SignTypes" id="SignTypes20181021160240168" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;SignTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="Surveyors" id="Surveyors20181021160239871" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Surveyors&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="Surveyors" id="Surveyors20181021160239871" source="service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;Surveyors&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="TicketMachineIssueTypes" id="TicketMachineIssueTypes20181021160239696" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;TicketMachineIssueTypes&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="TicketMachineIssueTypes" id="TicketMachineIssueTypes20181021160239696" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;TicketMachineIssueTypes&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="TilesInAcceptedProposals" id="TilesInAcceptedProposals20181121091759524" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='ProposalID,TileNr,RevisionNr' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;TilesInAcceptedProposals&quot; sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="TilesInAcceptedProposals" id="TilesInAcceptedProposals20181121091759524" source="service='toms_EDI_VM_TEST_admin' key='ProposalID,TileNr,RevisionNr' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;TilesInAcceptedProposals&quot; sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="TimePeriods" id="TimePeriods20181021160239166" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;TimePeriods&quot; sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="TimePeriods" id="TimePeriods20181021160239166" source="service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;TimePeriods&quot; sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
     </layer-tree-group>
     <layer-tree-group expanded="1" name="Map Schedule Grids" checked="Qt::Checked">
       <customproperties/>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="MapGrid" id="MapGrid20181021150348408" source="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;MapGrid&quot; (geom) sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="MapGrid" id="MapGrid20181021150348408" source="service='toms_EDI_VM_TEST_admin' key='id' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;MapGrid&quot; (geom) sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
     </layer-tree-group>
     <layer-tree-group expanded="0" name="Background Mapping" checked="Qt::Checked">
       <customproperties/>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="StreetGazetteerRecords" id="StreetGazetteerRecords_171231_USRN20190118103627517" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;StreetGazetteerRecords_171231_USRN&quot; (geom) sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="StreetGazetteerRecords" id="StreetGazetteerRecords_171231_USRN20190118103627517" source="service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;StreetGazetteerRecords_171231_USRN&quot; (geom) sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RoadCentreLine" id="StreetGazetteerRecords_171231_USRN_copy20190118103830332" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;StreetGazetteerRecords_171231_USRN&quot; (geom) sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RoadCentreLine" id="StreetGazetteerRecords_171231_USRN_copy20190118103830332" source="service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;StreetGazetteerRecords_171231_USRN&quot; (geom) sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="RoadCasement" id="EDI_RC_with_USRN_StreetNames20190118103627674" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;EDI_RC_with_USRN_StreetNames&quot; (geom) sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="RoadCasement" id="EDI_RC_with_USRN_StreetNames20190118103627674" source="service='toms_EDI1_VM_admin' key='id' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;EDI_RC_with_USRN_StreetNames&quot; (geom) sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="OS MasterMap Text" id="edi_cartotext20190118103627714" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;edi_cartotext&quot; (geom) sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="OS MasterMap Text" id="edi_cartotext20190118103627714" source="service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;edi_cartotext&quot; (geom) sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="OS MasterMap" id="edi_mm20190118103627695" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;edi_mm&quot; (geom) sql=" checked="Qt::Unchecked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="OS MasterMap" id="edi_mm20190118103627695" source="service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;edi_mm&quot; (geom) sql=" checked="Qt::Unchecked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="0" name="OS Mastermap (Map Schedule Style)" id="edi_mm_copy20190118103643985" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;edi_mm&quot; (geom) sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="0" name="OS Mastermap (Map Schedule Style)" id="edi_mm_copy20190118103643985" source="service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;edi_mm&quot; (geom) sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
-      <layer-tree-layer providerKey="postgres" expanded="1" name="city_of_edinburgh_area" id="city_of_edinburgh_area20190118103627734" source="dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;city_of_edinburgh_area&quot; (geom) sql=" checked="Qt::Checked">
+      <layer-tree-layer providerKey="postgres" expanded="1" name="city_of_edinburgh_area" id="city_of_edinburgh_area20190118103627734" source="service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;city_of_edinburgh_area&quot; (geom) sql=" checked="Qt::Checked">
         <customproperties/>
       </layer-tree-layer>
       <layer-tree-layer providerKey="wms" expanded="1" name="OpenStreetMap" id="OpenStreetMap_f972d7d5_1384_4d68_86fa_ad362518b9eb" source="crs=EPSG:3857&amp;format&amp;type=xyz&amp;url=https://tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&amp;zmax=19&amp;zmin=0" checked="Qt::Checked">
@@ -546,7 +546,7 @@
   <projectlayers>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>ActionOnProposalAcceptanceTypes20181021160243483</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."ActionOnProposalAcceptanceTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."ActionOnProposalAcceptanceTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -671,7 +671,7 @@
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>BayLineTypes_afc2917f_61e6_4366_8de9_957f9be4f39b</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 sslmode=disable authcfg=6m0o2jn key='Code' checkPrimaryKeyUnicity='1' table="public"."BayLineTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table="public"."BayLineTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -800,7 +800,7 @@
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>BayLinesFadedTypes20181021160243383</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."BayLinesFadedTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."BayLinesFadedTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -953,7 +953,7 @@
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>BayTypes_e002d408_df4b_40cd_83cf_d5d45f4317f5</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 sslmode=disable authcfg=6m0o2jn key='Code' checkPrimaryKeyUnicity='1' table="public"."BayTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table="public"."BayTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -1082,7 +1082,7 @@
         <ymax>678385.79340000101365149</ymax>
       </extent>
       <id>Bays20190906115347986</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table="public"."Bays" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table="public"."Bays" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -5021,7 +5021,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>BaysLines_SignIssueTypes20181021160243020</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."BaysLines_SignIssueTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."BaysLines_SignIssueTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -5395,7 +5395,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>676011.36100000003352761</ymax>
       </extent>
       <id>ControlledParkingZones20181021150204260</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table="public"."ControlledParkingZones" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='gid' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table="public"."ControlledParkingZones" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -5806,7 +5806,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>681445.65400000300724059</ymax>
       </extent>
       <id>EDI_RC_with_USRN_StreetNames20190118103627674</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table="public"."EDI_RC_with_USRN_StreetNames" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='id' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table="public"."EDI_RC_with_USRN_StreetNames" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -6192,7 +6192,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>LengthOfTime20181021160242420</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."LengthOfTime" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."LengthOfTime" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -6345,7 +6345,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>LineTypes_b3df85c5_3af7_4ab8_aec4_b591d8529d9c</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 sslmode=disable authcfg=6m0o2jn key='Code' checkPrimaryKeyUnicity='1' table="public"."LineTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table="public"."LineTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -6474,7 +6474,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>678496.08580000000074506</ymax>
       </extent>
       <id>Lines20190906115422594</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table="public"."Lines" (geom) sql="RestrictionID"  IN ('2d844884-edbd-4760-a7f0-52b276cfe941') OR ("OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL) AND "RestrictionID" NOT IN ('L_38')))</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=LineString checkPrimaryKeyUnicity='1' table="public"."Lines" (geom) sql="RestrictionID"  IN ('2d844884-edbd-4760-a7f0-52b276cfe941') OR ("OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL) AND "RestrictionID" NOT IN ('L_38')))</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -9156,7 +9156,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>679900</ymax>
       </extent>
       <id>MapGrid20181021150348408</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."MapGrid" (geom) sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."MapGrid" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -9598,7 +9598,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>678397.09100000001490116</ymax>
       </extent>
       <id>ParkingTariffAreas20181021150204193</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table="public"."ParkingTariffAreas" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table="public"."ParkingTariffAreas" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -10063,7 +10063,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>PaymentTypes20181021160241858</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."PaymentTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."PaymentTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -10202,7 +10202,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>ProposalStatusTypes20181021160241599</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."ProposalStatusTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."ProposalStatusTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -10341,7 +10341,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>Proposals20181109085019977</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='ProposalID' checkPrimaryKeyUnicity='1' table="public"."Proposals" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='ProposalID' checkPrimaryKeyUnicity='1' table="public"."Proposals" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -10594,7 +10594,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>RestrictionLayers20181021160241536</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionLayers" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionLayers" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -10723,7 +10723,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>RestrictionPolygonTypes20181021160241458</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionPolygonTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionPolygonTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -10870,7 +10870,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>678586.80100000102538615</ymax>
       </extent>
       <id>RestrictionPolygons20190906115446443</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='GeometryID' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table="public"."RestrictionPolygons" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=Polygon checkPrimaryKeyUnicity='1' table="public"."RestrictionPolygons" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -11904,7 +11904,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>RestrictionShapeTypes20181021160241302</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionShapeTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionShapeTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12048,7 +12048,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>RestrictionStatus20181021160241132</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionStatus" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionStatus" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12201,7 +12201,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>RestrictionTypes20181021160240889</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."RestrictionTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12354,7 +12354,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>RestrictionsInProposals20181021160241231</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='ProposalID,RestrictionTableID,RestrictionID' checkPrimaryKeyUnicity='1' table="public"."RestrictionsInProposals" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='ProposalID,RestrictionTableID,RestrictionID' checkPrimaryKeyUnicity='1' table="public"."RestrictionsInProposals" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12554,7 +12554,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>SignAttachmentTypes20181021160240715</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."SignAttachmentTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."SignAttachmentTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12693,7 +12693,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>SignFadedTypes20181021160240598</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."SignFadedTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."SignFadedTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12832,7 +12832,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>SignMountTypes20181021160240501</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."SignMountTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."SignMountTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -12971,7 +12971,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>SignObscurredTypes20181021160240344</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."SignObscurredTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."SignObscurredTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -13110,7 +13110,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>SignTypes20181021160240168</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."SignTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."SignTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -13255,7 +13255,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>678586.34530000004451722</ymax>
       </extent>
       <id>Signs20190906115517850</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='GeometryID' srid=27700 type=Point checkPrimaryKeyUnicity='1' table="public"."Signs" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='GeometryID' srid=27700 type=Point checkPrimaryKeyUnicity='1' table="public"."Signs" (geom) sql="OpenDate" &lt;= to_date('20-02-2020', 'dd-MM-yyyy') AND (("CloseDate" > to_date('20-02-2020', 'dd-MM-yyyy')  OR "CloseDate" IS NULL))</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -14044,7 +14044,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>679737</ymax>
       </extent>
       <id>StreetGazetteerRecords_171231_USRN20190118103627517</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table="public"."StreetGazetteerRecords_171231_USRN" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table="public"."StreetGazetteerRecords_171231_USRN" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -14824,7 +14824,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>679737</ymax>
       </extent>
       <id>StreetGazetteerRecords_171231_USRN_copy20190118103830332</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table="public"."StreetGazetteerRecords_171231_USRN" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table="public"."StreetGazetteerRecords_171231_USRN" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -15598,7 +15598,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>Surveyors20181021160239871</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='Code' checkPrimaryKeyUnicity='1' table="public"."Surveyors" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='Code' checkPrimaryKeyUnicity='1' table="public"."Surveyors" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -15723,7 +15723,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>TicketMachineIssueTypes20181021160239696</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."TicketMachineIssueTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."TicketMachineIssueTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -15862,7 +15862,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>TilesInAcceptedProposals20181121091759524</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='ProposalID,TileNr,RevisionNr' checkPrimaryKeyUnicity='1' table="public"."TilesInAcceptedProposals" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='ProposalID,TileNr,RevisionNr' checkPrimaryKeyUnicity='1' table="public"."TilesInAcceptedProposals" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -16061,7 +16061,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>TimePeriods20181021160239166</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."TimePeriods" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."TimePeriods" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -16214,7 +16214,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>baysWordingTypes20181021160242844</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='id' checkPrimaryKeyUnicity='1' table="public"."baysWordingTypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='id' checkPrimaryKeyUnicity='1' table="public"."baysWordingTypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -16353,7 +16353,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>baytypes20181021160242595</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' checkPrimaryKeyUnicity='1' table="public"."baytypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='gid' checkPrimaryKeyUnicity='1' table="public"."baytypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -16498,7 +16498,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>679812.75899999996181577</ymax>
       </extent>
       <id>city_of_edinburgh_area20190118103627734</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."city_of_edinburgh_area" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."city_of_edinburgh_area" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -16700,7 +16700,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>680995.11999999894760549</ymax>
       </extent>
       <id>edi_cartotext20190118103627714</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table="public"."edi_cartotext" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiLineString checkPrimaryKeyUnicity='1' table="public"."edi_cartotext" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -17864,7 +17864,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>681751.75</ymax>
       </extent>
       <id>edi_mm20190118103627695</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."edi_mm" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."edi_mm" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -18558,7 +18558,7 @@ def my_form_open(dialog, layer, feature):
         <ymax>681751.75</ymax>
       </extent>
       <id>edi_mm_copy20190118103643985</id>
-      <datasource>dbname='EDI1_VM' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."edi_mm" (geom) sql=</datasource>
+      <datasource>service='toms_EDI1_VM_admin' key='gid' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table="public"."edi_mm" (geom) sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -19294,7 +19294,7 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer type="vector" minScale="1e+08" autoRefreshTime="0" autoRefreshEnabled="0" styleCategories="AllStyleCategories" maxScale="0" refreshOnNotifyEnabled="0" refreshOnNotifyMessage="" hasScaleBasedVisibilityFlag="0" readOnly="0" geometry="No geometry">
       <id>linetypes20181021160242084</id>
-      <datasource>dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' password='OS12postgres' sslmode=disable key='gid' checkPrimaryKeyUnicity='1' table="public"."linetypes" sql=</datasource>
+      <datasource>service='toms_EDI_VM_TEST_admin' key='gid' checkPrimaryKeyUnicity='1' table="public"."linetypes" sql=</datasource>
       <keywordList>
         <value></value>
       </keywordList>
@@ -20315,7 +20315,7 @@ def my_form_open(dialog, layer, feature):
         <FontColor blue="0" alpha="255" red="0" green="0"/>
       </LayoutItem>
       <customproperties/>
-      <Atlas coverageLayer="MapGrid20181021150348408" featureFilter=" &quot;id&quot; in (1338)" coverageLayerSource="dbname='EDI_VM_TEST' host=10.132.0.5 port=5432 user='edi_admin' sslmode=disable key='id' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;MapGrid&quot; (geom) sql=" coverageLayerProvider="postgres" sortFeatures="0" coverageLayerName="MapGrid" pageNameExpression="&quot;id&quot;" filenamePattern="'output_'||@atlas_featurenumber" enabled="1" hideCoverage="0" filterFeatures="1"/>
+      <Atlas coverageLayer="MapGrid20181021150348408" featureFilter=" &quot;id&quot; in (1338)" coverageLayerSource="service='toms_EDI_VM_TEST_admin' key='id' srid=27700 type=MultiPolygon checkPrimaryKeyUnicity='1' table=&quot;public&quot;.&quot;MapGrid&quot; (geom) sql=" coverageLayerProvider="postgres" sortFeatures="0" coverageLayerName="MapGrid" pageNameExpression="&quot;id&quot;" filenamePattern="'output_'||@atlas_featurenumber" enabled="1" hideCoverage="0" filterFeatures="1"/>
     </Layout>
     <Layout name="A3 Sketch TH" printResolution="300" worldFileMap="" units="mm">
       <Snapper tolerance="5" snapToGrid="0" snapToGuides="1" snapToItems="1"/>
