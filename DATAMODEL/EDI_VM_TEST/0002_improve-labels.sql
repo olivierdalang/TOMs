@@ -49,7 +49,7 @@ FROM public."Bays";
 ALTER TABLE public."Lines" RENAME TO "Lines_";
 CREATE VIEW public."Lines" AS
 SELECT  l.*,
-        ST_Collect(lab.geom) as labels_geom
+        ST_AsText(ST_Collect(lab.geom)) as labels_geom
 FROM public."Lines_" l
 JOIN public."label_pos" lab ON lab."line_pk" = l."GeometryID"
 GROUP BY l."GeometryID";
@@ -72,6 +72,7 @@ GROUP BY lab."line_pk";
 GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_public;
 GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_public_nsl;
 GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_admin;
+*/
 
 /*
 
