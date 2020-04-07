@@ -130,7 +130,7 @@ CREATE MATERIALIZED VIEW public."BayLineTypes" AS
     "BayLineTypes"."Description"
    FROM ( SELECT "BayLineTypes_1"."Code",
             "BayLineTypes_1"."Description"
-           FROM public.dblink('hostaddr=127.0.0.1 port=5432 dbname=MasterLookups user=postgres password=OS!2postgreS options=-csearch_path='::text, 'SELECT "Code", "Description" FROM public."BayLineTypes"'::text) "BayLineTypes_1"("Code" integer, "Description" text)) "BayLineTypes",
+           FROM public.dblink('hostaddr=127.0.0.1 port=5432 dbname=MasterLookups user=postgres options=-csearch_path='::text, 'SELECT "Code", "Description" FROM public."BayLineTypes"'::text) "BayLineTypes_1"("Code" integer, "Description" text)) "BayLineTypes",
     public."BayLineTypesInUse" u
   WHERE ("BayLineTypes"."Code" = u."Code")
   WITH NO DATA;
@@ -203,7 +203,7 @@ CREATE MATERIALIZED VIEW public."BayTypes" AS
     "BayLineTypes"."Description"
    FROM ( SELECT "BayLineTypes_1"."Code",
             "BayLineTypes_1"."Description"
-           FROM public.dblink('hostaddr=127.0.0.1 port=5432 dbname=MasterLookups user=postgres password=OS!2postgreS options=-csearch_path='::text, 'SELECT "Code", "Description" FROM public."BayLineTypes"'::text) "BayLineTypes_1"("Code" integer, "Description" text)) "BayLineTypes",
+           FROM public.dblink('hostaddr=127.0.0.1 port=5432 dbname=MasterLookups user=postgres options=-csearch_path='::text, 'SELECT "Code", "Description" FROM public."BayLineTypes"'::text) "BayLineTypes_1"("Code" integer, "Description" text)) "BayLineTypes",
     public."BayLineTypesInUse" u
   WHERE (("BayLineTypes"."Code" = u."Code") AND (u."Code" < 200))
   WITH NO DATA;
@@ -514,7 +514,7 @@ CREATE MATERIALIZED VIEW public."LineTypes" AS
     "BayLineTypes"."Description"
    FROM ( SELECT "BayLineTypes_1"."Code",
             "BayLineTypes_1"."Description"
-           FROM public.dblink('hostaddr=127.0.0.1 port=5432 dbname=MasterLookups user=postgres password=OS!2postgreS options=-csearch_path='::text, 'SELECT "Code", "Description" FROM public."BayLineTypes"'::text) "BayLineTypes_1"("Code" integer, "Description" text)) "BayLineTypes",
+           FROM public.dblink('hostaddr=127.0.0.1 port=5432 dbname=MasterLookups user=postgres options=-csearch_path='::text, 'SELECT "Code", "Description" FROM public."BayLineTypes"'::text) "BayLineTypes_1"("Code" integer, "Description" text)) "BayLineTypes",
     public."BayLineTypesInUse" u
   WHERE (("BayLineTypes"."Code" = u."Code") AND (u."Code" > 200))
   WITH NO DATA;
