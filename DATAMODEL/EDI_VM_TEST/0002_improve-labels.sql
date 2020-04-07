@@ -34,6 +34,38 @@ SELECT  COALESCE(ST_SetSRID(ST_MakePoint("label_X", "label_Y"), 27700),
         "GeometryID"
 FROM public."Bays";
 
+
+-- Create a post-insert/update trigger that creates label positions on each sheet if needed
+CREATE FUNCTION ensure_labels_function() RETURNS trigger AS $emp_stamp$
+    BEGIN
+        
+        -- Check that empname and salary are given
+        IF NEW.empname IS NULL THEN
+            RAISE EXCEPTION 'empname cannot be null';
+        END IF;
+        IF NEW.salary IS NULL THEN
+            RAISE EXCEPTION '% cannot have null salary', NEW.empname;
+        END IF;
+
+        -- Who works for us when she must pay for it?
+        IF NEW.salary < 0 THEN
+            RAISE EXCEPTION '% cannot have a negative salary', NEW.empname;
+        END IF;
+
+        -- Remember who changed the payroll when
+        NEW.last_date := current_timestamp;
+        NEW.last_user := current_user;
+        RETURN NEW;
+    END;
+$emp_stamp$ LANGUAGE plpgsql;
+
+CREATE TRIGGER ensure_labels
+    AFTER INSERT OR UPDATE ON public."Lines"
+    FOR EACH ROW
+    WHEN (OLD.geom IS DISTINCT FROM NEW.geom)
+    EXECUTE PROCEDURE ensure_labels_function();
+
+
 -- Remove obsolete fields
 -- ALTER TABLE public."Lines" DROP COLUMN "labelX";
 -- ALTER TABLE public."Lines" DROP COLUMN "labelY";
@@ -74,17 +106,3 @@ GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_public_nsl;
 GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_admin;
 */
 
-/*
-
--- Create a post-insert/update trigger that creates label positions on each sheet if needed
-INSERT INTO public."label_pos"
-VALUES
-C
-
-CREATE TRIGGER ensure_labels
-    AFTER INSERT OR UPDATE ON public."Lines"
-    FOR EACH ROW
-    WHEN (OLD.* IS DISTINCT FROM NEW.*)
-    EXECUTE PROCEDURE ensure_labels_function();
-
-    */
