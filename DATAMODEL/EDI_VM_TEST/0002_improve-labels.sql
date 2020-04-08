@@ -10,7 +10,9 @@ CREATE TABLE public."label_pos" (
     line_pk VARCHAR REFERENCES public."Lines"("GeometryID") ON DELETE CASCADE,
     poly_pk VARCHAR REFERENCES public."RestrictionPolygons"("GeometryID") ON DELETE CASCADE,
     grid_id BIGINT REFERENCES public."MapGrid"("id") ON DELETE CASCADE,
-    lock BOOLEAN DEFAULT FALSE
+    lock BOOLEAN DEFAULT FALSE,
+    waiting_visible BOOLEAN DEFAULT FALSE,
+    loading_visible BOOLEAN DEFAULT FALSE
     CONSTRAINT exactly_one_reference CHECK ( (line_pk IS NOT NULL)::int + (poly_pk IS NOT NULL)::int = 1 ) 
 );
 GRANT SELECT ON TABLE public."label_pos" TO edi_public;
@@ -31,7 +33,7 @@ SELECT  ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700),
         grd.id,
         TRUE
 FROM public."Lines" l
-JOIN public."MapGrid" grd ON ST_Contains(grd.geom, l.geom)
+JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700))
 WHERE "labelX" IS NOT NULL and "labelY" IS NOT NULL;
 
 INSERT INTO public."label_pos" (geom_lbl, rotation, poly_pk, grid_id, lock)
@@ -41,7 +43,7 @@ SELECT  ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700),
         grd.id,
         TRUE
 FROM public."RestrictionPolygons" p
-JOIN public."MapGrid" grd ON ST_Contains(grd.geom, p.geom)
+JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700))
 WHERE "labelX" IS NOT NULL and "labelY" IS NOT NULL;
 
 
@@ -76,14 +78,15 @@ CREATE OR REPLACE FUNCTION ensure_labels_lines_fct() RETURNS trigger SECURITY DE
         WHERE p."line_pk" = NEW."GeometryID" AND NOT p."lock";
 
         -- create new positions on each sheet
-        INSERT INTO public."label_pos"("line_pk", "geom_lbl", "rotation")
+        INSERT INTO public."label_pos"("line_pk", "geom_lbl", "rotation", "grid_id")
         SELECT  NEW."GeometryID",
                 CASE
                     -- the intersection can return a point if it ends exactly on the edge of the grid
                     WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
                     ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
                 END,
-                0.0
+                0.0,
+                grd."id"
         FROM public."MapGrid" grd
         WHERE ST_Intersects(grd.geom, NEW.geom)
             -- if it does not already exist
@@ -95,16 +98,19 @@ CREATE OR REPLACE FUNCTION ensure_labels_lines_fct() RETURNS trigger SECURITY DE
 
         -- update geom_src positions on each sheet
         UPDATE public."label_pos"
-        SET "geom_src" = (
-            SELECT CASE
-                -- the intersection can return a point if it ends exactly on the edge of the grid
-                WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
-                ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
-            END
-            FROM public."MapGrid" grd
-            WHERE grd."id" = "grid_id"
-        )
-        WHERE "line_pk" = NEW."GeometryID";
+        SET
+            "geom_src" = (
+                CASE
+                    -- the intersection can return a point if it ends exactly on the edge of the grid
+                    WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
+                    ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
+                END
+            ),
+            "grid_id" = grd.id,
+            "waiting_visible" = NEW."NoWaitingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 221),
+            "loading_visible" = NEW."NoLoadingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 202, 221)
+        FROM public."MapGrid" grd
+        WHERE grd."id" = "grid_id" AND "line_pk" = NEW."GeometryID";
 
         RETURN NEW;
     END;
@@ -126,14 +132,15 @@ CREATE OR REPLACE FUNCTION ensure_labels_polys_fct() RETURNS trigger SECURITY DE
         WHERE p."poly_pk" = NEW."GeometryID" AND NOT p."lock";
 
         -- create new positions on each sheet
-        INSERT INTO public."label_pos"("poly_pk", "geom_lbl", "rotation")
+        INSERT INTO public."label_pos"("poly_pk", "geom_lbl", "rotation", "grid_id")
         SELECT  NEW."GeometryID",
                 CASE
                     -- the intersection can return a point if it ends exactly on the edge of the grid
                     WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
                     ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
                 END,
-                0.0
+                0.0,
+                grd."id"
         FROM public."MapGrid" grd
         WHERE ST_Intersects(grd.geom, NEW.geom)
             -- if it does not already exist
@@ -145,16 +152,19 @@ CREATE OR REPLACE FUNCTION ensure_labels_polys_fct() RETURNS trigger SECURITY DE
 
         -- update geom_src positions on each sheet
         UPDATE public."label_pos"
-        SET "geom_src" = (
-            SELECT CASE
-                -- the intersection can return a point if it ends exactly on the edge of the grid
-                WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
-                ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
-            END
-            FROM public."MapGrid" grd
-            WHERE grd."id" = "grid_id"
-        )
-        WHERE "line_pk" = NEW."GeometryID";
+        SET
+            "geom_src" = (
+                CASE
+                    -- the intersection can return a point if it ends exactly on the edge of the grid
+                    WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
+                    ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
+                END
+            ),
+            "grid_id" = grd.id,
+            "waiting_visible" = NEW."NoWaitingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 221),
+            "loading_visible" = NEW."NoLoadingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 202, 221)
+        FROM public."MapGrid" grd
+        WHERE grd."id" = "grid_id" AND "line_pk" = NEW."GeometryID";
 
         RETURN NEW;
     END;
@@ -170,18 +180,18 @@ UPDATE public."RestrictionPolygons" SET geom = geom;  -- run the trigger on all 
 -- Create the label view
 CREATE VIEW public."label_pos_display" AS 
 SELECT array_agg(lab.id::text),
-       ST_SnapToGrid(lab."geom_lbl",5) as pos,
-       ST_Collect(ST_MakeLine(lab."geom_src", ST_SnapToGrid(lab."geom_lbl"))) as leaders,
+    lab."geom_lbl"::geometry('Point', 27700) as pos,
+       ST_Collect(ST_MakeLine(lab."geom_src",lab."geom_lbl"))::geometry('Linestring', 27700) as leaders,
        coalesce(tlw."LabelText", tpw."LabelText") AS waiting,
        coalesce(tll."LabelText", tpl."LabelText") AS loading
 FROM "label_pos" lab
-LEFT JOIN "Lines" l ON l."GeometryID" = lab."line_pk" AND lab."line_pk" IS NOT NULL
-LEFT JOIN "TimePeriods" tlw ON tlw."Code" = l."NoWaitingTimeID"
-LEFT JOIN "TimePeriods" tll ON tll."Code" = l."NoLoadingTimeID"
+LEFT JOIN "Lines" l ON l."GeometryID" = lab."line_pk"
+LEFT JOIN "TimePeriods" tlw ON tlw."Code" = l."NoWaitingTimeID" AND l."RestrictionTypeID" IN (201, 221)
+LEFT JOIN "TimePeriods" tll ON tll."Code" = l."NoLoadingTimeID" AND l."RestrictionTypeID" IN (201, 202, 221)
 LEFT JOIN "RestrictionPolygons" p ON p."GeometryID" = lab."poly_pk" AND lab."poly_pk" IS NOT NULL
 LEFT JOIN "TimePeriods" tpw ON tpw."Code" = p."NoWaitingTimeID"
 LEFT JOIN "TimePeriods" tpl ON tpl."Code" = l."NoLoadingTimeID"
-GROUP BY waiting, loading, ST_SnapToGrid(lab."geom_lbl",5);
+GROUP BY waiting, loading, lab."geom_lbl";
 
 GRANT SELECT ON TABLE public."label_pos_display" TO edi_public;
 GRANT SELECT ON TABLE public."label_pos_display" TO edi_public_nsl;
