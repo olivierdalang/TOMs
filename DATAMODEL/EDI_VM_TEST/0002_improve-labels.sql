@@ -5,6 +5,7 @@ ALTER TABLE public."MapGrid" OWNER TO postgres;
 CREATE TABLE public."label_pos" (
     id SERIAL PRIMARY KEY,
     geom public.geometry(Point,27700) NOT NULL,
+    base public.geometry(Point,27700),
     rotation DOUBLE PRECISION NOT NULL,
     line_pk VARCHAR REFERENCES public."Lines"("GeometryID") ON DELETE CASCADE,
     poly_pk VARCHAR REFERENCES public."RestrictionPolygons"("GeometryID") ON DELETE CASCADE,
@@ -20,6 +21,7 @@ GRANT SELECT ON SEQUENCE public."label_pos_id_seq" TO edi_operator;
 GRANT SELECT ON SEQUENCE public."label_pos_id_seq" TO edi_public;
 GRANT SELECT ON SEQUENCE public."label_pos_id_seq" TO edi_public_nsl;
 GRANT SELECT,USAGE ON SEQUENCE public."label_pos_id_seq" TO edi_admin;
+
 
 -- Migrate existing label positions
 INSERT INTO public."label_pos" (geom, rotation, line_pk, grid_id, lock)
@@ -61,7 +63,7 @@ CREATE OR REPLACE FUNCTION auto_lock_labels_fct() RETURNS trigger SECURITY DEFIN
 $emp_stamp$ LANGUAGE plpgsql;
 
 CREATE TRIGGER auto_lock_labels
-    BEFORE UPDATE ON public."label_pos"
+    BEFORE UPDATE OF "geom" ON public."label_pos"
     FOR EACH ROW
     EXECUTE PROCEDURE auto_lock_labels_fct();
 
@@ -78,18 +80,31 @@ CREATE OR REPLACE FUNCTION ensure_labels_lines_fct() RETURNS trigger SECURITY DE
         SELECT  NEW."GeometryID",
                 CASE
                     -- the intersection can return a point if it ends exactly on the edge of the grid
-                    WHEN GeometryType(ST_Intersection(grd1.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd1.geom, NEW.geom), 0.5)
-                    ELSE ST_Centroid(ST_Intersection(grd1.geom, NEW.geom))
+                    WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
+                    ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
                 END,
                 0.0
-        FROM public."MapGrid" grd1
-        WHERE ST_Intersects(grd1.geom, NEW.geom)
+        FROM public."MapGrid" grd
+        WHERE ST_Intersects(grd.geom, NEW.geom)
             -- if it does not already exist
             AND NOT EXISTS(
                 SELECT *
                 FROM public."label_pos" p
-                WHERE p."line_pk" = NEW."GeometryID" AND p."grid_id" = grd1."id"
+                WHERE p."line_pk" = NEW."GeometryID" AND p."grid_id" = grd."id"
             );
+
+        -- update base positions on each sheet
+        UPDATE public."label_pos"
+        SET "base" = (
+            SELECT CASE
+                -- the intersection can return a point if it ends exactly on the edge of the grid
+                WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
+                ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
+            END
+            FROM public."MapGrid" grd
+            WHERE grd."id" = "grid_id"
+        )
+        WHERE "line_pk" = NEW."GeometryID";
 
         RETURN NEW;
     END;
@@ -115,18 +130,31 @@ CREATE OR REPLACE FUNCTION ensure_labels_polys_fct() RETURNS trigger SECURITY DE
         SELECT  NEW."GeometryID",
                 CASE
                     -- the intersection can return a point if it ends exactly on the edge of the grid
-                    WHEN GeometryType(ST_Intersection(grd1.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd1.geom, NEW.geom), 0.5)
-                    ELSE ST_Centroid(ST_Intersection(grd1.geom, NEW.geom))
+                    WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
+                    ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
                 END,
                 0.0
-        FROM public."MapGrid" grd1
-        WHERE ST_Intersects(grd1.geom, NEW.geom)
+        FROM public."MapGrid" grd
+        WHERE ST_Intersects(grd.geom, NEW.geom)
             -- if it does not already exist
             AND NOT EXISTS(
                 SELECT *
                 FROM public."label_pos" p
-                WHERE p."poly_pk" = NEW."GeometryID" AND p."grid_id" = grd1."id"
+                WHERE p."poly_pk" = NEW."GeometryID" AND p."grid_id" = grd."id"
             );
+
+        -- update base positions on each sheet
+        UPDATE public."label_pos"
+        SET "base" = (
+            SELECT CASE
+                -- the intersection can return a point if it ends exactly on the edge of the grid
+                WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
+                ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
+            END
+            FROM public."MapGrid" grd
+            WHERE grd."id" = "grid_id"
+        )
+        WHERE "line_pk" = NEW."GeometryID";
 
         RETURN NEW;
     END;
@@ -139,6 +167,22 @@ CREATE TRIGGER ensure_labels_polys
 
 UPDATE public."RestrictionPolygons" SET geom = geom;  -- run the trigger on all rows
 
+
+
+-- Create the label view
+CREATE VIEW public."label_pos_display" AS 
+SELECT lab.id,
+       st_makeline(lab.base,lab.geom) as geom,
+       t1."LabelText" AS waiting,
+       t2."LabelText" AS loading
+FROM "label_pos" lab
+JOIN "Lines" l ON l."GeometryID" = lab."line_pk" AND lab."line_pk" IS NOT NULL
+JOIN  "TimePeriods" t1 ON t1."Code" = l."NoWaitingTimeID"
+JOIN  "TimePeriods" t2 ON t2."Code" = l."NoLoadingTimeID";
+
+GRANT SELECT ON TABLE public."label_pos_display" TO edi_public;
+GRANT SELECT ON TABLE public."label_pos_display" TO edi_public_nsl;
+GRANT SELECT ON TABLE public."label_pos_display" TO edi_admin;
 
 
 /*
@@ -157,18 +201,3 @@ GRANT SELECT ON TABLE public."Lines" TO edi_public;
 GRANT SELECT ON TABLE public."Lines" TO edi_public_nsl;
 GRANT SELECT ON TABLE public."Lines" TO edi_admin;
 */
-
-/*
--- Create views that join label positions
-DROP VIEW public."label_pos_agg_lines";
-CREATE VIEW public."label_pos_agg_lines" AS
-SELECT lab."line_pk", ST_Collect(lab.geom) as labels_geoms
-FROM public."label_pos" lab
-WHERE lab."line_pk" IS NOT NULL
-GROUP BY lab."line_pk";
-
-GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_public;
-GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_public_nsl;
-GRANT SELECT ON TABLE public."label_pos_agg_lines" TO edi_admin;
-*/
-
