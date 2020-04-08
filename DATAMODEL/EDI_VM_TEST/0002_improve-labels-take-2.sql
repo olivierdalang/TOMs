@@ -57,7 +57,9 @@ SELECT  ST_SetSRID(ST_MakePoint("labelLoadingX", "labelLoadingY"), 27700),
 FROM public."Lines" l
 JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("labelLoadingX", "labelLoadingY"), 27700))
 WHERE "labelLoadingX" IS NOT NULL and "labelLoadingY" IS NOT NULL;
+
 /*
+-- TODO : reenable
 -- Migrate existing label positions (RestrictionPolygons)
 INSERT INTO public."label_pos" (geom_lbl, rotation, polys_pk, sheet_id, lock, purpose)
 SELECT  ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700),
@@ -82,16 +84,17 @@ FROM public."Bays" l
 JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("label_X", "label_Y"), 27700))
 WHERE "label_X" IS NOT NULL and "label_Y" IS NOT NULL;
 */
+
 -- Remove obsolete fields
--- ALTER TABLE public."Lines" DROP COLUMN "labelX";
--- ALTER TABLE public."Lines" DROP COLUMN "labelY";
--- ALTER TABLE public."Lines" DROP COLUMN "labelRotation";
--- ALTER TABLE public."RestrictionPolygons" DROP COLUMN "labelX";
--- ALTER TABLE public."RestrictionPolygons" DROP COLUMN "labelY";
--- ALTER TABLE public."RestrictionPolygons" DROP COLUMN "labelRotation";
--- ALTER TABLE public."Bays" DROP COLUMN "label_X";
--- ALTER TABLE public."Bays" DROP COLUMN "label_Y";
--- ALTER TABLE public."Bays" DROP COLUMN "label_Rotation";
+ALTER TABLE public."Lines" DROP COLUMN "labelX";
+ALTER TABLE public."Lines" DROP COLUMN "labelY";
+ALTER TABLE public."Lines" DROP COLUMN "labelRotation";
+ALTER TABLE public."RestrictionPolygons" DROP COLUMN "labelX";
+ALTER TABLE public."RestrictionPolygons" DROP COLUMN "labelY";
+ALTER TABLE public."RestrictionPolygons" DROP COLUMN "labelRotation";
+ALTER TABLE public."Bays" DROP COLUMN "label_X";
+ALTER TABLE public."Bays" DROP COLUMN "label_Y";
+ALTER TABLE public."Bays" DROP COLUMN "label_Rotation";
 
 
 -- Create an auto-lock trigger to automatically lock all modified labels
@@ -102,12 +105,11 @@ CREATE OR REPLACE FUNCTION auto_lock_labels_fct() RETURNS trigger SECURITY DEFIN
     END;
 $emp_stamp$ LANGUAGE plpgsql;
 
-/*
 CREATE TRIGGER auto_lock_labels
     BEFORE UPDATE OF "geom_lbl" ON public."label_pos"
     FOR EACH ROW
     EXECUTE PROCEDURE auto_lock_labels_fct();
-*/
+
 
 -- Create a post-insert/update trigger that creates label positions on each sheet if needed
 CREATE OR REPLACE FUNCTION ensure_labels_fct() RETURNS trigger SECURITY DEFINER AS $emp_stamp$
@@ -197,104 +199,10 @@ FOR EACH ROW EXECUTE PROCEDURE ensure_labels_fct();
 CREATE TRIGGER ensure_labels AFTER INSERT OR UPDATE ON public."ParkingTariffAreas"
 FOR EACH ROW EXECUTE PROCEDURE ensure_labels_fct();
 
--- run the trigger on all rows
+-- run the trigger on all rows  TODO : enable for all tables
 --UPDATE public."Bays" SET geom = geom;
 UPDATE public."Lines" SET geom = geom;
 --UPDATE public."Signs" SET geom = geom;
 --UPDATE public."RestrictionPolygons" SET geom = geom;
 --UPDATE public."CPZs" SET geom = geom;
 --UPDATE public."ParkingTariffAreas" SET geom = geom;
-
-
-
-/*
--- Create a post-insert/update trigger that creates label positions on each sheet if needed
-CREATE OR REPLACE FUNCTION ensure_labels_polys_fct() RETURNS trigger SECURITY DEFINER AS $emp_stamp$
-    BEGIN
-
-        -- remove unlocked positions
-        DELETE FROM public."label_pos" p
-        WHERE p."poly_pk" = NEW."GeometryID" AND NOT p."lock";
-
-        -- create new positions on each sheet
-        INSERT INTO public."label_pos"("poly_pk", "geom_lbl", "rotation", "grid_id")
-        SELECT  NEW."GeometryID",
-                CASE
-                    -- the intersection can return a point if it ends exactly on the edge of the grid
-                    WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
-                    ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
-                END,
-                0.0,
-                grd."id"
-        FROM public."MapGrid" grd
-        WHERE ST_Intersects(grd.geom, NEW.geom)
-            -- if it does not already exist
-            AND NOT EXISTS(
-                SELECT *
-                FROM public."label_pos" p
-                WHERE p."poly_pk" = NEW."GeometryID" AND p."grid_id" = grd."id"
-            );
-
-        -- update geom_src positions on each sheet
-        UPDATE public."label_pos"
-        SET
-            "geom_src" = (
-                CASE
-                    -- the intersection can return a point if it ends exactly on the edge of the grid
-                    WHEN GeometryType(ST_Intersection(grd.geom, NEW.geom)) = 'LINESTRING' THEN ST_LineInterpolatePoint(ST_Intersection(grd.geom, NEW.geom), 0.5)
-                    ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
-                END
-            ),
-            "grid_id" = grd.id
-        FROM public."MapGrid" grd
-        WHERE grd."id" = "grid_id" AND "line_pk" = NEW."GeometryID";
-
-        RETURN NEW;
-    END;
-$emp_stamp$ LANGUAGE plpgsql;
-
-CREATE TRIGGER ensure_labels_polys
-    AFTER INSERT OR UPDATE ON public."RestrictionPolygons"
-    FOR EACH ROW
-    EXECUTE PROCEDURE ensure_labels_polys_fct();
-
-UPDATE public."RestrictionPolygons" SET geom = geom;  -- run the trigger on all rows
-*/
-/*
--- Create the label view
-CREATE VIEW public."label_pos_display" AS 
-SELECT array_agg(lab.id::text),
-    lab."geom_lbl"::geometry('Point', 27700) as pos,
-       ST_Collect(ST_MakeLine(lab."geom_src",lab."geom_lbl"))::geometry('Linestring', 27700) as leaders,
-       coalesce(tlw."LabelText", tpw."LabelText") AS waiting,
-       coalesce(tll."LabelText", tpl."LabelText") AS loading
-FROM "label_pos" lab
-LEFT JOIN "Lines" l ON l."GeometryID" = lab."line_pk"
-LEFT JOIN "TimePeriods" tlw ON tlw."Code" = l."NoWaitingTimeID" AND l."RestrictionTypeID" IN (201, 221)
-LEFT JOIN "TimePeriods" tll ON tll."Code" = l."NoLoadingTimeID" AND l."RestrictionTypeID" IN (201, 202, 221)
-LEFT JOIN "RestrictionPolygons" p ON p."GeometryID" = lab."poly_pk" AND lab."poly_pk" IS NOT NULL
-LEFT JOIN "TimePeriods" tpw ON tpw."Code" = p."NoWaitingTimeID"
-LEFT JOIN "TimePeriods" tpl ON tpl."Code" = l."NoLoadingTimeID"
-GROUP BY waiting, loading, lab."geom_lbl";
-
-GRANT SELECT ON TABLE public."label_pos_display" TO edi_public;
-GRANT SELECT ON TABLE public."label_pos_display" TO edi_public_nsl;
-GRANT SELECT ON TABLE public."label_pos_display" TO edi_admin;
-*/
-/*
--- Create proxy view for Lines
-ALTER TABLE public."Lines" RENAME TO "Lines_";
-CREATE VIEW public."Lines" AS
-SELECT  l.*,
-        ST_AsText(ST_Collect(lab."geom_lbl")) as "labels_positions_wkt",
-        ST_AsText(ST_Collect(ST_MakeLine(lab."geom_src", lab."geom_lbl"))) as "labels_leaders_wkt"
-FROM public."Lines_" l
-JOIN public."label_pos" lab ON lab."line_pk" = l."GeometryID"
-GROUP BY l."GeometryID";
-
--- TODO : make updateable
-
-GRANT SELECT ON TABLE public."Lines" TO edi_public;
-GRANT SELECT ON TABLE public."Lines" TO edi_public_nsl;
-GRANT SELECT ON TABLE public."Lines" TO edi_admin;
-*/
