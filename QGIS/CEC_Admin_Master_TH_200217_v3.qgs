@@ -218,10 +218,10 @@
   <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>meters</units>
     <extent>
-      <xmin>325887.38237515039509162</xmin>
-      <ymin>673625.8605561280855909</ymin>
-      <xmax>325919.35724448639666662</xmax>
-      <ymax>673653.94772663584444672</ymax>
+      <xmin>325889.69407080759992823</xmin>
+      <ymin>673627.57873905904125422</ymin>
+      <xmax>325921.66894014360150322</xmax>
+      <ymax>673655.66590956680011004</ymax>
     </extent>
     <rotation>0</rotation>
     <destinationsrs>
@@ -21769,9 +21769,9 @@ def my_form_open(dialog, layer, feature):
     </maplayer>
     <maplayer refreshOnNotifyMessage="" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Point" hasScaleBasedVisibilityFlag="0" minScale="1e+08" readOnly="0" autoRefreshEnabled="0" autoRefreshTime="0" simplifyMaxScale="1" wkbType="Point" maxScale="0" simplifyLocal="1" simplifyDrawingHints="0" simplifyDrawingTol="1" styleCategories="AllStyleCategories" labelsEnabled="1" type="vector">
       <extent>
-        <xmin>325804.55545889912173152</xmin>
+        <xmin>325804.5554588990053162</xmin>
         <ymin>673334.44857378804590553</ymin>
-        <xmax>326500.4310807105503045</xmax>
+        <xmax>326500.43108071101596579</xmax>
         <ymax>673984.09195885504595935</ymax>
       </extent>
       <id>label_pos_b3f8e724_8dfb_4819_8886_2a25df4a1b02</id>

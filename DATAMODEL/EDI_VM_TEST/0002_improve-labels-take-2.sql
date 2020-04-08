@@ -22,6 +22,7 @@ CREATE TABLE public."label_pos" (
         (bays_pk IS NOT NULL)::int + (lines_pk IS NOT NULL)::int + (signs_pk IS NOT NULL)::int + (polys_pk IS NOT NULL)::int + (cpzs_pk IS NOT NULL)::int + (parking_pk IS NOT NULL)::int = 1
     ),
     UNIQUE (
+        -- FIXME : doesn't work with nullable fields
         sheet_id, purpose, bays_pk, lines_pk, signs_pk, polys_pk, cpzs_pk, parking_pk
     )
 );
@@ -35,7 +36,7 @@ GRANT SELECT ON SEQUENCE public."label_pos_id_seq" TO edi_public_nsl;
 GRANT SELECT,USAGE ON SEQUENCE public."label_pos_id_seq" TO edi_admin;
 
 
--- Migrate existing label positions (Lines)
+-- Migrate manually positionned label (Lines)
 INSERT INTO public."label_pos" (geom_lbl, rotation, lines_pk, sheet_id, lock, purpose)
 SELECT  ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700),
         COALESCE("labelRotation",0),
@@ -58,9 +59,8 @@ FROM public."Lines" l
 JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("labelLoadingX", "labelLoadingY"), 27700))
 WHERE "labelLoadingX" IS NOT NULL and "labelLoadingY" IS NOT NULL;
 
-/*
--- TODO : reenable
--- Migrate existing label positions (RestrictionPolygons)
+
+-- Migrate manually positionned label (RestrictionPolygons)
 INSERT INTO public."label_pos" (geom_lbl, rotation, polys_pk, sheet_id, lock, purpose)
 SELECT  ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700),
         COALESCE("labelRotation",0),
@@ -72,7 +72,7 @@ FROM public."RestrictionPolygons" p
 JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("labelX", "labelY"), 27700))
 WHERE "labelX" IS NOT NULL and "labelY" IS NOT NULL;
 
--- Migrate existing label positions (Bays)
+-- Migrate manually positionned label (Bays)
 INSERT INTO public."label_pos" (geom_lbl, rotation, bays_pk, sheet_id, lock, purpose)
 SELECT  ST_SetSRID(ST_MakePoint("label_X", "label_Y"), 27700),
         COALESCE("label_Rotation",0),
@@ -83,7 +83,7 @@ SELECT  ST_SetSRID(ST_MakePoint("label_X", "label_Y"), 27700),
 FROM public."Bays" l
 JOIN public."MapGrid" grd ON ST_Contains(grd.geom, ST_SetSRID(ST_MakePoint("label_X", "label_Y"), 27700))
 WHERE "label_X" IS NOT NULL and "label_Y" IS NOT NULL;
-*/
+
 
 -- Remove obsolete fields
 ALTER TABLE public."Lines" DROP COLUMN "labelX";
@@ -158,11 +158,11 @@ CREATE OR REPLACE FUNCTION ensure_labels_fct() RETURNS trigger SECURITY DEFINER 
             JOIN (SELECT UNNEST($3)) as prp ON TRUE
             WHERE ST_Intersects(grd.geom, $1)
                 -- if it does not already exist
-                --AND NOT EXISTS(
-                --    SELECT *
-                --    FROM public."label_pos" p
-                --    WHERE p."' || FK || '" = $2 AND p."sheet_id" = grd."id" AND p."purpose" = prp.unnest
-                --);
+                AND NOT EXISTS(
+                    SELECT *
+                    FROM public."label_pos" p
+                    WHERE p."' || FK || '" = $2 AND p."sheet_id" = grd."id" AND p."purpose" = prp.unnest
+                );
         ' USING NEWGEOM, NEWPK, REQUIRED_LABELS;
 
         -- update geom_src positions on each sheet
@@ -199,10 +199,10 @@ FOR EACH ROW EXECUTE PROCEDURE ensure_labels_fct();
 CREATE TRIGGER ensure_labels AFTER INSERT OR UPDATE ON public."ParkingTariffAreas"
 FOR EACH ROW EXECUTE PROCEDURE ensure_labels_fct();
 
--- run the trigger on all rows  TODO : enable for all tables
---UPDATE public."Bays" SET geom = geom;
+-- run the trigger on all rows
+UPDATE public."Bays" SET geom = geom;
 UPDATE public."Lines" SET geom = geom;
---UPDATE public."Signs" SET geom = geom;
---UPDATE public."RestrictionPolygons" SET geom = geom;
---UPDATE public."CPZs" SET geom = geom;
---UPDATE public."ParkingTariffAreas" SET geom = geom;
+UPDATE public."Signs" SET geom = geom;
+UPDATE public."RestrictionPolygons" SET geom = geom;
+UPDATE public."CPZs" SET geom = geom;
+UPDATE public."ParkingTariffAreas" SET geom = geom;
