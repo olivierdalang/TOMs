@@ -28,7 +28,9 @@ from qgis.gui import *
 from qgis.utils import *
 from qgis.core import (
     QgsMessageLog,
-    QgsExpression
+    QgsExpression,
+    QgsProject,
+    QgsFeatureRequest,
 )
 import math
 from .generateGeometryUtils import generateGeometryUtils
@@ -210,6 +212,29 @@ def getPolygonLabelLeader(feature, parent):
                 repr(traceback.extract_tb(exc_traceback))),
             tag="TOMs panel")
     return labelLeaderGeom
+
+@qgsfunction(args='auto', group='TOMs2', usesgeometry=False, register=True)
+def getLabelText(feature, parent):
+    # Returns the label text
+    puropose = feature.attribute("purpose")
+
+    def get_related_feature(layer_name, pk_field, pk):
+        # get a feature from a layer
+        layer = QgsProject.instance().mapLayersByName(layer_name)[0]
+        if isinstace(pk, str):
+            pk = "'{}'".format(pk)
+        query = '"{}" = {}'.format(pk_field, pk)
+        return layer.getFeature(QgsFeatureRequest().setFilterExpression(request))
+
+    if feature.attribute('lines_pk'):
+        feature = get_related_feature('Lines', 'GeometryID', feature.attribute('lines_pk'))
+        if purpose == 'waiting':
+            return "AAA" + getWaitingRestrictionLabelText()
+        elif puropose == 'loading':
+            return "BBB" + getLoadingRestrictionLabelText()
+
+    return 'Not implemented'
+
 
 @qgsfunction(args='auto', group='TOMs2', usesgeometry=False, register=True)
 def getWaitingRestrictionLabelText(feature, parent):

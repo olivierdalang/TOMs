@@ -909,7 +909,7 @@ class generateGeometryUtils:
         QgsMessageLog.logMessage("In getBayRestrictionLabelText. timePeriodDesc (2): " + str(timePeriodDesc), tag="TOMs panel")
 
         return maxStayDesc, noReturnDesc, timePeriodDesc
-
+    
     @staticmethod
     def getLookupDescription(lookupLayer, code):
 
