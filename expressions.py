@@ -216,24 +216,51 @@ def getPolygonLabelLeader(feature, parent):
 @qgsfunction(args='auto', group='TOMs2', usesgeometry=False, register=True)
 def getLabelText(feature, parent):
     # Returns the label text
-    puropose = feature.attribute("purpose")
+    purpose = feature.attribute("purpose")
 
     def get_related_feature(layer_name, pk_field, pk):
         # get a feature from a layer
         layer = QgsProject.instance().mapLayersByName(layer_name)[0]
-        if isinstace(pk, str):
+        if isinstance(pk, str):
             pk = "'{}'".format(pk)
-        query = '"{}" = {}'.format(pk_field, pk)
-        return layer.getFeature(QgsFeatureRequest().setFilterExpression(request))
+        request = '"{}" = {}'.format(pk_field, pk)
+        features = layer.getFeatures(QgsFeatureRequest().setFilterExpression(request))
+        for f in features:
+            return f # return the first feature
+        return None
 
+    # dispatch to the correct label function
+    # this reimplements the logic that previously was in the QGIS file's rule based label definition
     if feature.attribute('lines_pk'):
-        feature = get_related_feature('Lines', 'GeometryID', feature.attribute('lines_pk'))
+        related_feature = get_related_feature('Lines', 'GeometryID', feature.attribute('lines_pk'))
         if purpose == 'waiting':
-            return "AAA" + getWaitingRestrictionLabelText()
-        elif puropose == 'loading':
-            return "BBB" + getLoadingRestrictionLabelText()
+            if related_feature.attribute("RestrictionTypeID") in (201, 221):
+                return getWaitingRestrictionLabelText.function(related_feature, parent)
+        elif purpose == 'loading':
+            if related_feature.attribute("RestrictionTypeID") in (201, 202, 221):
+                return getLoadingRestrictionLabelText.function(related_feature, parent)
 
-    return 'Not implemented'
+    elif feature.attribute('bays_pk'):
+        # TODO : implement
+        return 'Not implemented'
+
+    elif feature.attribute('signs_pk'):
+        # TODO : implement
+        return 'Not implemented'
+
+    elif feature.attribute('polys_pk'):
+        # TODO : implement
+        return 'Not implemented'
+
+    elif feature.attribute('cpzs_pk'):
+        # TODO : implement
+        return 'Not implemented'
+
+    elif feature.attribute('parking_pk'):
+        # TODO : implement
+        return 'Not implemented'
+
+    return ''
 
 
 @qgsfunction(args='auto', group='TOMs2', usesgeometry=False, register=True)
