@@ -70,16 +70,6 @@ class TOMs:
 
         QgsMessageLog.logMessage("Starting TOMs ... ", tag="TOMs panel")
 
-        self.logMessage = QgsMessageLog.logMessage
-        def mute(*args, **kwargs):
-            if kwargs.get('tag') == 'TOMs panel':
-                pass
-            else:
-                self.logMessage(*args, **kwargs)
-        QgsMessageLog.logMessage = mute        
-        QgsMessageLog.logMessage("AM I MUTE ? ", tag="TOMs panel")
-        QgsMessageLog.logMessage("YES I AM ! ", tag="TOMs panel test")
-
         """Constructor.
         
         :param iface: An interface instance that will be passed to this class

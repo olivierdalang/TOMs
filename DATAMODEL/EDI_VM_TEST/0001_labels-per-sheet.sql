@@ -1,3 +1,5 @@
+/* DATAMODEL diff to enable multiple labels per sheet */
+
 -- Fix ownership (needed for foreign key)
 ALTER TABLE public."MapGrid" OWNER TO postgres;
 
