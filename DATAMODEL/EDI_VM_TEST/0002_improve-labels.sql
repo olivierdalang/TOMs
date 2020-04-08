@@ -4,15 +4,13 @@ ALTER TABLE public."MapGrid" OWNER TO postgres;
 -- Create the label positions table
 CREATE TABLE public."label_pos" (
     id SERIAL PRIMARY KEY,
-    geom_lbl public.geometry(Point,27700) NOT NULL,
-    geom_src public.geometry(Point,27700),
-    rotation DOUBLE PRECISION NOT NULL,
+    geom_lbl public.geometry(Point,27700) NOT NULL, -- the label position
+    geom_src public.geometry(Point,27700), -- the source position (for the leader)
+    rotation DOUBLE PRECISION NOT NULL, -- not used
     line_pk VARCHAR REFERENCES public."Lines"("GeometryID") ON DELETE CASCADE,
     poly_pk VARCHAR REFERENCES public."RestrictionPolygons"("GeometryID") ON DELETE CASCADE,
-    grid_id BIGINT REFERENCES public."MapGrid"("id") ON DELETE CASCADE,
-    lock BOOLEAN DEFAULT FALSE,
-    waiting_visible BOOLEAN DEFAULT FALSE,
-    loading_visible BOOLEAN DEFAULT FALSE
+    grid_id BIGINT NOT NULL REFERENCES public."MapGrid"("id") ON DELETE CASCADE, -- the map grid item
+    lock BOOLEAN DEFAULT FALSE -- whether the label position was manually moved (in which case it's locked) 
     CONSTRAINT exactly_one_reference CHECK ( (line_pk IS NOT NULL)::int + (poly_pk IS NOT NULL)::int = 1 ) 
 );
 GRANT SELECT ON TABLE public."label_pos" TO edi_public;
@@ -106,9 +104,7 @@ CREATE OR REPLACE FUNCTION ensure_labels_lines_fct() RETURNS trigger SECURITY DE
                     ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
                 END
             ),
-            "grid_id" = grd.id,
-            "waiting_visible" = NEW."NoWaitingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 221),
-            "loading_visible" = NEW."NoLoadingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 202, 221)
+            "grid_id" = grd.id
         FROM public."MapGrid" grd
         WHERE grd."id" = "grid_id" AND "line_pk" = NEW."GeometryID";
 
@@ -160,9 +156,7 @@ CREATE OR REPLACE FUNCTION ensure_labels_polys_fct() RETURNS trigger SECURITY DE
                     ELSE ST_Centroid(ST_Intersection(grd.geom, NEW.geom))
                 END
             ),
-            "grid_id" = grd.id,
-            "waiting_visible" = NEW."NoWaitingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 221),
-            "loading_visible" = NEW."NoLoadingTimeID" IS NOT NULL AND NEW."RestrictionTypeID" IN (201, 202, 221)
+            "grid_id" = grd.id
         FROM public."MapGrid" grd
         WHERE grd."id" = "grid_id" AND "line_pk" = NEW."GeometryID";
 
@@ -177,6 +171,7 @@ CREATE TRIGGER ensure_labels_polys
 
 UPDATE public."RestrictionPolygons" SET geom = geom;  -- run the trigger on all rows
 
+/*
 -- Create the label view
 CREATE VIEW public."label_pos_display" AS 
 SELECT array_agg(lab.id::text),
@@ -196,14 +191,14 @@ GROUP BY waiting, loading, lab."geom_lbl";
 GRANT SELECT ON TABLE public."label_pos_display" TO edi_public;
 GRANT SELECT ON TABLE public."label_pos_display" TO edi_public_nsl;
 GRANT SELECT ON TABLE public."label_pos_display" TO edi_admin;
+*/
 
-
-/*
 -- Create proxy view for Lines
 ALTER TABLE public."Lines" RENAME TO "Lines_";
 CREATE VIEW public."Lines" AS
 SELECT  l.*,
-        ST_AsText(ST_Collect(lab.geom)) as labels_geom
+        ST_AsText(ST_Collect(lab."geom_lbl")) as "labels_positions_wkt",
+        ST_AsText(ST_Collect(ST_MakeLine(lab."geom_src", lab."geom_lbl"))) as "labels_leaders_wkt"
 FROM public."Lines_" l
 JOIN public."label_pos" lab ON lab."line_pk" = l."GeometryID"
 GROUP BY l."GeometryID";
@@ -213,4 +208,3 @@ GROUP BY l."GeometryID";
 GRANT SELECT ON TABLE public."Lines" TO edi_public;
 GRANT SELECT ON TABLE public."Lines" TO edi_public_nsl;
 GRANT SELECT ON TABLE public."Lines" TO edi_admin;
-*/
