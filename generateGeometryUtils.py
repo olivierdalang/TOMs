@@ -696,60 +696,6 @@ class generateGeometryUtils:
         return None
 
     @staticmethod
-    def generateWaitingLabelLeader(feature):
-
-        #QgsMessageLog.logMessage("In generateWaitingLabelLeader", tag="TOMs panel")
-        # check to see scale
-
-        minScale = float(generateGeometryUtils.getMininumScaleForDisplay())
-        currScale = float(iface.mapCanvas().scale())
-
-        #QgsMessageLog.logMessage("In generateLabelLeader. Current scale: " + str(currScale) + " min scale: " + str(minScale), tag="TOMs panel")
-
-        if currScale <= minScale:
-
-            if feature.attribute("labelX"):
-                #QgsMessageLog.logMessage(
-                #    "In generateLabelLeader. labelX set for " + str(feature.attribute("GeometryID")), tag="TOMs panel")
-
-                # now generate line
-                length = feature.geometry().length()
-                return QgsGeometry.fromPolyline([QgsPoint(feature.geometry().interpolate(length/2.0).asPoint()), QgsPoint(feature.attribute("labelX"), feature.attribute("labelY"))])
-
-            pass
-
-        pass
-
-        return None
-
-    @staticmethod
-    def generateLoadingLabelLeader(feature):
-
-        #QgsMessageLog.logMessage("In generateLoadingLabelLeader", tag="TOMs panel")
-        # check to see scale
-
-        minScale = float(generateGeometryUtils.getMininumScaleForDisplay())
-        currScale = float(iface.mapCanvas().scale())
-
-        #QgsMessageLog.logMessage("In generateLabelLeader. Current scale: " + str(currScale) + " min scale: " + str(minScale), tag="TOMs panel")
-
-        if currScale <= minScale:
-
-            if feature.attribute("labelLoadingX"):
-                #QgsMessageLog.logMessage(
-                #    "In generateLabelLeader. labelX set for " + str(feature.attribute("GeometryID")), tag="TOMs panel")
-
-                # now generate line
-                length = feature.geometry().length()
-                return QgsGeometry.fromPolyline([QgsPoint(feature.geometry().interpolate(length/2.0).asPoint()), QgsPoint(feature.attribute("labelLoadingX"), feature.attribute("labelLoadingY"))])
-
-            pass
-
-        pass
-
-        return None
-
-    @staticmethod
     def generateBayLabelLeader(feature):
 
         #QgsMessageLog.logMessage("In generateBayLabelLeader", tag="TOMs panel")
