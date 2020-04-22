@@ -666,6 +666,36 @@ class generateGeometryUtils:
         return phase((rect(1, a1) + rect(1, a2)) / 2.0)
 
     @staticmethod
+    def generateMultiLabelLeaders(feature):
+        """This generates leaders for labels as multipoints"""
+
+        minScale = float(generateGeometryUtils.getMininumScaleForDisplay())
+        currScale = float(iface.mapCanvas().scale())
+
+        #QgsMessageLog.logMessage("In generateLabelLeader. Current scale: " + str(currScale) + " min scale: " + str(minScale), tag="TOMs panel")
+
+        if currScale <= minScale:
+
+            # we're accessing the labels layer, meaning that feature.geometry() is the label's position (multipoint)
+            label_geometry = feature.geometry().asMultiPoint()
+
+            # we need to get the main geometry too
+            # unfortunately, the attribute returns an eWKT instead of a QgsGeometry (see post on qgis-dev 22/04/2020)
+            main_ewkt = feature.attribute("geom")
+            main_wkt = main_ewkt[main_ewkt.index(';')+1:]
+            main_geom = QgsGeometry.fromWkt(main_wkt)
+
+            # we build a collection for the leaders
+            leaders = []
+            for label_pos in label_geometry:
+                nearest_point = main_geom.nearestPoint(QgsGeometry.fromPointXY(label_pos)).asPoint()
+                leaders.append([nearest_point, label_pos])
+
+            return QgsGeometry.fromMultiPolylineXY(leaders)
+
+        return None
+
+    @staticmethod
     def generateWaitingLabelLeader(feature):
 
         #QgsMessageLog.logMessage("In generateWaitingLabelLeader", tag="TOMs panel")
