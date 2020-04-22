@@ -1,3 +1,9 @@
+-- Enable python
+CREATE EXTENSION IF NOT EXISTS plpython3u;
+-- if this fails, try
+-- (ubuntu) sudo apt-get install postgresql-plpython3-9.6
+-- (others) see http://blog.rubypdf.com/2019/06/29/how-to-enable-plpython3u-extension-on-postgre-app/
+
 /* DATAMODEL diff to enable multiple labels per sheet */
 
 -- ALTER TABLE public."Lines" ADD COLUMN "label_text" text;
